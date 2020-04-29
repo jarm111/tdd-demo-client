@@ -49,7 +49,7 @@ describe('<EventForm/>', () => {
       fireEvent.blur(getByLabelText('title-input'))
     })
 
-    getByText('Title is required', { exact: false })
+    getByText('title is a required', { exact: false })
 
     await act(async () => {
       fireEvent.input(getByLabelText('title-input'), {
@@ -57,7 +57,7 @@ describe('<EventForm/>', () => {
       })
     })
 
-    getByText('Title minimum length', { exact: false })
+    getByText('title must be at least', { exact: false })
 
     await act(async () => {
       fireEvent.input(getByLabelText('title-input'), {
@@ -65,7 +65,7 @@ describe('<EventForm/>', () => {
       })
     })
 
-    getByText('Title maximum length', { exact: false })
+    getByText('title must be at most', { exact: false })
   })
 
   it('handles date validation errors', async () => {
@@ -82,7 +82,7 @@ describe('<EventForm/>', () => {
       fireEvent.blur(getByLabelText('date-input'))
     })
 
-    getByText('Date is required', { exact: false })
+    getByText('date is a required', { exact: false })
 
     await act(async () => {
       fireEvent.input(getByLabelText('date-input'), {
@@ -90,7 +90,7 @@ describe('<EventForm/>', () => {
       })
     })
 
-    getByText('Date must be in format', { exact: false })
+    getByText('date must be in format', { exact: false })
   })
 
   it('handles description validation errors', async () => {
@@ -107,7 +107,7 @@ describe('<EventForm/>', () => {
       fireEvent.blur(getByLabelText('description-input'))
     })
 
-    getByText('Description is required', { exact: false })
+    getByText('description is a required', { exact: false })
 
     await act(async () => {
       fireEvent.input(getByLabelText('description-input'), {
@@ -115,7 +115,7 @@ describe('<EventForm/>', () => {
       })
     })
 
-    getByText('Description minimum length', { exact: false })
+    getByText('description must be at least', { exact: false })
 
     await act(async () => {
       fireEvent.input(getByLabelText('description-input'), {
@@ -123,6 +123,6 @@ describe('<EventForm/>', () => {
       })
     })
 
-    getByText('Description maximum length', { exact: false })
+    getByText('description must be at most', { exact: false })
   })
 })
