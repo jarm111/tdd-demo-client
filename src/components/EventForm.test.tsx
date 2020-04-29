@@ -2,6 +2,15 @@ import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import EventForm from './EventForm'
 
+const setupComponent = () => {
+  const onSubmit = jest.fn()
+  const result = render(<EventForm onSubmit={onSubmit} />)
+  return {
+    onSubmit,
+    result,
+  }
+}
+
 describe('<EventForm/>', () => {
   it('fills fields and calls submit with values', async () => {
     const [title, date, description] = [
@@ -9,10 +18,11 @@ describe('<EventForm/>', () => {
       '2020-04-28',
       'Everyone is welcome to my new event!',
     ]
-    const onSubmit = jest.fn()
-    const { getByText, getByLabelText } = render(
-      <EventForm onSubmit={onSubmit} />
-    )
+
+    const {
+      onSubmit,
+      result: { getByLabelText, getByText },
+    } = setupComponent()
 
     fireEvent.input(getByLabelText('title-input'), {
       target: { value: title },
@@ -36,10 +46,9 @@ describe('<EventForm/>', () => {
   })
 
   it('handles title validation errors', async () => {
-    const onSubmit = jest.fn()
-    const { getByText, getByLabelText } = render(
-      <EventForm onSubmit={onSubmit} />
-    )
+    const {
+      result: { getByLabelText, getByText },
+    } = setupComponent()
 
     fireEvent.input(getByLabelText('title-input'), {
       target: { value: '' },
@@ -69,10 +78,9 @@ describe('<EventForm/>', () => {
   })
 
   it('handles date validation errors', async () => {
-    const onSubmit = jest.fn()
-    const { getByText, getByLabelText } = render(
-      <EventForm onSubmit={onSubmit} />
-    )
+    const {
+      result: { getByLabelText, getByText },
+    } = setupComponent()
 
     fireEvent.input(getByLabelText('date-input'), {
       target: { value: '' },
@@ -94,10 +102,9 @@ describe('<EventForm/>', () => {
   })
 
   it('handles description validation errors', async () => {
-    const onSubmit = jest.fn()
-    const { getByText, getByLabelText } = render(
-      <EventForm onSubmit={onSubmit} />
-    )
+    const {
+      result: { getByLabelText, getByText },
+    } = setupComponent()
 
     fireEvent.input(getByLabelText('description-input'), {
       target: { value: '' },
