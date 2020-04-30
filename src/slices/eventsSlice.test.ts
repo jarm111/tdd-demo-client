@@ -1,16 +1,30 @@
-import { configureStore } from '@reduxjs/toolkit'
-import events from './eventsSlice'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import eventsReducer, { addEvent } from './eventsSlice'
+
+let store: EnhancedStore
 
 describe('eventsSlice', () => {
-  it('returns empty array as initial state', () => {
-    const store = configureStore({
+  beforeEach(() => {
+    store = configureStore({
       reducer: {
-        events: events.reducer,
+        events: eventsReducer,
       },
     })
+  })
 
-    const { events: eventsState } = store.getState()
+  it('returns empty array as initial state', () => {
+    expect(store.getState().events).toEqual([])
+  })
 
-    expect(eventsState).toEqual([])
+  it('adds new event', () => {
+    const event = {
+      id: 1,
+      title: 'My example event',
+      date: '2020-04-30',
+      description: 'Welcome to my new event',
+    }
+
+    store.dispatch(addEvent(event))
+    expect(store.getState().events).toEqual([event])
   })
 })
