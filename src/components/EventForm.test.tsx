@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import EventForm from './EventForm'
+import events from '../mocks/eventsMockData'
 
 const setupComponent = () => {
   const onSubmit = jest.fn()
@@ -13,11 +14,7 @@ const setupComponent = () => {
 
 describe('<EventForm/>', () => {
   it('fills fields and calls submit with values', async () => {
-    const [title, date, description] = [
-      'My new event',
-      '2020-04-28',
-      'Everyone is welcome to my new event!',
-    ]
+    const [{ title, date, description }] = events
 
     const {
       onSubmit,
