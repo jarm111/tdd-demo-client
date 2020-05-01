@@ -1,21 +1,16 @@
 import React from 'react'
 import EventItem from './EventItem'
-
-type Event = Readonly<{
-  id: string
-  title: string
-  date: string
-}>
+import Event from '../types/Event'
 
 type Props = {
-  events: readonly Event[]
+  events: Event[]
 }
 
 const EventList = ({ events }: Props) => {
   return (
     <div>
-      {events.map(({ id, title, date }) => (
-        <EventItem key={id} title={title} date={date} />
+      {events.map((event) => (
+        <EventItem key={event.id} event={event} />
       ))}
     </div>
   )

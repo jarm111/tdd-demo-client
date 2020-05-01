@@ -1,15 +1,13 @@
 import React from 'react'
-import { withKnobs, text } from '@storybook/addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import EventItem from './EventItem'
+import events from '../mocks/eventsMockData'
+
+const [event] = events
 
 export default {
   title: 'EventItem',
   decorators: [withKnobs],
 }
 
-export const withProps = () => (
-  <EventItem
-    title={text('Title', 'My lovely event')}
-    date={text('Date', '2020-04-24')}
-  />
-)
+export const withEvent = () => <EventItem event={object('Event', event)} />

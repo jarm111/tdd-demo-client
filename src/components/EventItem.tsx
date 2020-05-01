@@ -1,11 +1,11 @@
 import React from 'react'
+import Event from '../types/Event'
 
 type Props = {
-  title: string
-  date: string
+  event: Event
 }
 
-const EventItem = ({ title, date }: Props) => {
+const EventItem = ({ event: { title, date } }: Props) => {
   return (
     <div>
       <div>{title}</div>
