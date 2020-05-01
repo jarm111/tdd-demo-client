@@ -18,7 +18,7 @@ describe('eventsSlice', () => {
 
   it('adds new event', () => {
     const event = {
-      id: 1,
+      id: '1',
       title: 'My example event',
       date: '2020-04-30',
       description: 'Welcome to my new event',

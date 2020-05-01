@@ -1,11 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-
-type Event = Readonly<{
-  id: number
-  title: string
-  date: string
-  description: string
-}>
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import Event from '../types/Event'
 
 const initialState: Event[] = []
 
@@ -13,7 +7,7 @@ const eventsSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
-    addEvent: (state, action) => {
+    addEvent: (state, action: PayloadAction<Event>) => {
       state.push(action.payload)
     },
   },
