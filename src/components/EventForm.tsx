@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { ALL_CATEGORIES } from '../types/Category'
 
 const schema = yup.object().shape({
   title: yup.string().required().min(3).max(100),
@@ -40,6 +41,15 @@ const EventForm = ({ onSubmit }: Props) => {
       <label>Date</label>
       <input name="date" ref={register} aria-label="date-input" />
       {errors.date && errors.date.message}
+      <label>Category</label>
+      <select name="category" ref={register} aria-label="category-select">
+        <option value="">--Select--</option>
+        {ALL_CATEGORIES.map((category) => (
+          <option key={category} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
       <label>Description</label>
       <input name="description" ref={register} aria-label="description-input" />
       {errors.description && errors.description.message}

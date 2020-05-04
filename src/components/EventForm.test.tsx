@@ -14,7 +14,7 @@ const setupComponent = () => {
 
 describe('<EventForm/>', () => {
   it('fills fields and calls submit with values', async () => {
-    const [{ title, date, description }] = events
+    const [{ title, date, description, category }] = events
 
     const {
       onSubmit,
@@ -26,6 +26,9 @@ describe('<EventForm/>', () => {
     })
     fireEvent.input(getByLabelText('date-input'), {
       target: { value: date },
+    })
+    fireEvent.select(getByLabelText('category-select'), {
+      target: { value: category },
     })
     fireEvent.input(getByLabelText('description-input'), {
       target: { value: description },
@@ -39,6 +42,7 @@ describe('<EventForm/>', () => {
       title,
       date,
       description,
+      category,
     })
   })
 
