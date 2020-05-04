@@ -13,6 +13,7 @@ const schema = yup.object().shape({
       'date must be in format: yyyy-mm-dd'
     ),
   description: yup.string().required().min(10).max(500),
+  category: yup.string().required(),
 })
 
 type Props = {
@@ -50,6 +51,7 @@ const EventForm = ({ onSubmit }: Props) => {
           </option>
         ))}
       </select>
+      {errors.category && errors.category.message}
       <label>Description</label>
       <input name="description" ref={register} aria-label="description-input" />
       {errors.description && errors.description.message}

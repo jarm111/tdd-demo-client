@@ -133,4 +133,16 @@ describe('<EventForm/>', () => {
 
     getByText('description must be at most', { exact: false })
   })
+
+  it('handles category select validation errors', async () => {
+    const {
+      result: { getByText },
+    } = setupComponent()
+
+    await act(async () => {
+      fireEvent.click(getByText('Submit'))
+    })
+
+    getByText('category is a required field', { exact: false })
+  })
 })
