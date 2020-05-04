@@ -5,11 +5,14 @@ type Props = {
   event: Event
 }
 
-const EventDetails = ({ event: { title, date, description } }: Props) => {
+const EventDetails = ({
+  event: { title, date, category, description },
+}: Props) => {
   return (
     <div>
       <div>{title}</div>
       <div>{date}</div>
+      <div>{category}</div>
       <div>{description}</div>
     </div>
   )

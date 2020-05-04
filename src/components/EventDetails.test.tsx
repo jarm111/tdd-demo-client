@@ -6,12 +6,13 @@ import events from '../mocks/eventsMockData'
 describe('<EventDetails />', () => {
   it('displays details of event', () => {
     const [event] = events
-    const { title, date, description } = event
+    const { title, date, description, category } = event
 
     const { getByText } = render(<EventDetails event={event} />)
 
     getByText(title)
     getByText(date)
+    getByText(category)
     getByText(description)
   })
 })
