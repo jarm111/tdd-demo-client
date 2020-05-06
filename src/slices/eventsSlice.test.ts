@@ -1,26 +1,25 @@
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import eventsReducer, { addEvent } from './eventsSlice'
 import events from '../mocks/eventsMockData'
 
-let store: EnhancedStore
-
-describe('eventsSlice', () => {
-  beforeEach(() => {
-    store = configureStore({
-      reducer: {
-        events: eventsReducer,
-      },
-    })
+const setup = () =>
+  configureStore({
+    reducer: {
+      events: eventsReducer,
+    },
   })
 
-  it('returns empty array as initial state', () => {
-    expect(store.getState().events).toEqual([])
-  })
+test('returns empty array as initial state', () => {
+  const store = setup()
 
-  it('adds new event', () => {
-    const [event] = events
+  expect(store.getState().events).toEqual([])
+})
 
-    store.dispatch(addEvent(event))
-    expect(store.getState().events).toEqual([event])
-  })
+test('adds new event', () => {
+  const [event] = events
+  const store = setup()
+
+  store.dispatch(addEvent(event))
+
+  expect(store.getState().events).toEqual([event])
 })

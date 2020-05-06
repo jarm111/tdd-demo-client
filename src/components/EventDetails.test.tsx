@@ -3,16 +3,14 @@ import { render } from '@testing-library/react'
 import EventDetails from './EventDetails'
 import events from '../mocks/eventsMockData'
 
-describe('<EventDetails />', () => {
-  it('displays details of event', () => {
-    const [event] = events
-    const { title, date, description, category } = event
+test('displays details of event', () => {
+  const [event] = events
+  const { title, date, description, category } = event
 
-    const { getByText } = render(<EventDetails event={event} />)
+  const { getByText } = render(<EventDetails event={event} />)
 
-    getByText(title)
-    getByText(date)
-    getByText(category)
-    getByText(description)
-  })
+  getByText(title)
+  getByText(date)
+  getByText(category)
+  getByText(description)
 })
