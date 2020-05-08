@@ -4,6 +4,7 @@ it('fills new event form and adds created event to events list', () => {
   const [{title, date, category, description}] = events
 
   cy.visit('/')
+  cy.findByText('Create').click()
   cy.findByLabelText('title-input')
     .type(title)
   cy.findByLabelText('date-input')
