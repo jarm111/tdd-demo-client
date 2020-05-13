@@ -16,4 +16,6 @@ it('fills new event form and adds created event to events list', () => {
   cy.findByText('Submit')
     .click()
   cy.findByText(title)
+    .click()
+  cy.findByText(description)
 })

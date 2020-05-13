@@ -4,13 +4,14 @@ import Event from '../types/Event'
 
 type Props = {
   events: Event[]
+  onClick: Function
 }
 
-const EventList = ({ events }: Props) => {
+const EventList = ({ events, onClick }: Props) => {
   return (
     <div>
       {events.map((event) => (
-        <EventItem key={event.id} event={event} />
+        <EventItem onClick={onClick} key={event.id} event={event} />
       ))}
     </div>
   )
