@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Switch, Route, useParams } from 'react-router-dom'
-import { createHashHistory } from 'history'
+import { Switch, Route, useParams, useHistory } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import EventList from './components/EventList'
 import EventForm from './components/EventForm'
@@ -12,7 +11,7 @@ import { addEvent } from './slices/eventsSlice'
 const App = () => {
   const events = useTypedSelector((state) => state.events)
   const dispatch = useDispatch()
-  const history = createHashHistory()
+  const history = useHistory()
 
   const generateRandomId = () =>
     Math.floor(Math.random() * Math.floor(1000000000)).toString()
@@ -24,7 +23,7 @@ const App = () => {
     history.push('/')
   }
 
-  const handleClick = (eventId: number) => {
+  const handleClick = (eventId: string) => {
     history.push(`/event/${eventId}`)
   }
 
@@ -32,8 +31,7 @@ const App = () => {
     const { id } = useParams()
     const event = events.find((event) => event.id === id)
 
-    if (!event) return null
-    return <EventDetails event={event} />
+    return event ? <EventDetails event={event} /> : null
   }
 
   return (
@@ -49,7 +47,6 @@ const App = () => {
           <EventForm onSubmit={handleSubmit} />
         </Route>
         <Route path={'/event/:id'}>
-          <h2>Event</h2>
           <ShowEventDetails />
         </Route>
       </Switch>
