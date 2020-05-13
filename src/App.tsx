@@ -1,11 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  useParams,
-} from 'react-router-dom'
+import { Switch, Route, useParams } from 'react-router-dom'
 import { createHashHistory } from 'history'
 import Navigation from './components/Navigation'
 import EventList from './components/EventList'
@@ -42,7 +37,7 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <>
       <Navigation />
       <Switch>
         <Route exact path={'/'}>
@@ -58,7 +53,7 @@ const App = () => {
           <ShowEventDetails />
         </Route>
       </Switch>
-    </Router>
+    </>
   )
 }
 
