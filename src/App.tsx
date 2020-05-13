@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Switch, Route, useParams, useHistory } from 'react-router-dom'
+import EventsPaige from './paiges/EventsPaige'
 import Navigation from './components/Navigation'
-import EventList from './components/EventList'
 import EventForm from './components/EventForm'
 import EventDetails from './components/EventDetails'
 import { useTypedSelector } from './store'
@@ -23,10 +23,6 @@ const App = () => {
     history.push('/')
   }
 
-  const handleClick = (eventId: string) => {
-    history.push(`/event/${eventId}`)
-  }
-
   const ShowEventDetails = () => {
     const { id } = useParams()
     const event = events.find((event) => event.id === id)
@@ -39,8 +35,7 @@ const App = () => {
       <Navigation />
       <Switch>
         <Route exact path={'/'}>
-          <h1>Events</h1>
-          <EventList onClick={handleClick} events={events} />
+          <EventsPaige />
         </Route>
         <Route path={'/create'}>
           <h2>Create new event</h2>
