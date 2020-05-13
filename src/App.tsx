@@ -1,21 +1,11 @@
 import React from 'react'
-import { Switch, Route, useParams } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import EventsPaige from './paiges/EventsPaige'
 import CreateEventPage from './paiges/CreateEventPage'
+import EventDetailsPage from './paiges/EventDetailsPage'
 import Navigation from './components/Navigation'
-import EventDetails from './components/EventDetails'
-import { useTypedSelector } from './store'
 
 const App = () => {
-  const events = useTypedSelector((state) => state.events)
-
-  const ShowEventDetails = () => {
-    const { id } = useParams()
-    const event = events.find((event) => event.id === id)
-
-    return event ? <EventDetails event={event} /> : null
-  }
-
   return (
     <>
       <Navigation />
@@ -27,7 +17,7 @@ const App = () => {
           <CreateEventPage />
         </Route>
         <Route path={'/event/:id'}>
-          <ShowEventDetails />
+          <EventDetailsPage />
         </Route>
       </Switch>
     </>
