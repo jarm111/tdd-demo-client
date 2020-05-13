@@ -10,7 +10,7 @@ const EventDetails = ({
 }: Props) => {
   return (
     <div>
-      <div>{title}</div>
+      <h2>{title}</h2>
       <div>{date}</div>
       <div>{category}</div>
       <div>{description}</div>
