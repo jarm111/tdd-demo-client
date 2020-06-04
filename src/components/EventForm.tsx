@@ -17,7 +17,7 @@ const schema = yup.object().shape({
 })
 
 type Props = {
-  onSubmit: Function
+  onSubmit: (data: Record<string, any>) => void
 }
 
 const EventForm = ({ onSubmit }: Props) => {
@@ -25,12 +25,9 @@ const EventForm = ({ onSubmit }: Props) => {
     mode: 'onBlur',
     validationSchema: schema,
   })
-  const mySubmit = handleSubmit((data) => {
-    onSubmit(data)
-  })
 
   return (
-    <form onSubmit={mySubmit}>
+    <form onSubmit={handleSubmit((data) => onSubmit(data))}>
       <label>Title</label>
       <input
         name="title"
