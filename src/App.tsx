@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import EventsPaige from './paiges/EventsPaige'
-import CreateEventPage from './paiges/CreateEventPage'
-import EventDetailsPage from './paiges/EventDetailsPage'
+import EventsPaige from './pages/EventsPaige'
+import CreateEventPage from './pages/CreateEventPage'
+import EventDetailsPage from './pages/EventDetailsPage'
 import Navigation from './components/Navigation'
 
 const App = () => {
