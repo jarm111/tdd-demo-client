@@ -1,6 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer, { setUser, clearUser } from './userSlice'
-import User from '../types/User'
+import axios from 'axios'
+import userReducer, { signup } from './userSlice'
+
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 const setup = () =>
   configureStore({
@@ -15,19 +18,24 @@ test('returns null as initial state', () => {
   expect(store.getState().user).toBeNull()
 })
 
-test('sets user and clears', () => {
+test('signs up user', async () => {
   const store = setup()
-  const user: User = {
-    id: 'id123',
+  const credentials = {
     email: 'test.user@email.com',
+    password: 'password1234',
+  }
+  const user = {
     token: 'token123',
+    email: credentials.email,
+    id: 'user123',
+  }
+  const response = {
+    data: user,
   }
 
-  store.dispatch(setUser(user))
+  mockedAxios.post.mockResolvedValue(response)
+
+  await store.dispatch(signup(credentials))
 
   expect(store.getState().user).toEqual(user)
-
-  store.dispatch(clearUser())
-
-  expect(store.getState().user).toBeNull()
 })
