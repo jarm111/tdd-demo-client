@@ -18,6 +18,9 @@ const userService = {
       console.error(e)
     }
   },
+  clearUser: () => {
+    window.localStorage.removeItem(localStorageKey)
+  },
 }
 
 export default userService
