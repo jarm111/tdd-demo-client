@@ -20,4 +20,8 @@ test('navigates to links', () => {
   fireEvent.click(getByText('create', { exact: false }))
 
   expect(history.location.pathname).toBe('/create')
+
+  fireEvent.click(getByText('sign up', { exact: false }))
+
+  expect(history.location.pathname).toBe('/signup')
 })

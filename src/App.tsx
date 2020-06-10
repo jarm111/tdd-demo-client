@@ -4,6 +4,7 @@ import EventsPaige from './pages/EventsPaige'
 import CreateEventPage from './pages/CreateEventPage'
 import EventDetailsPage from './pages/EventDetailsPage'
 import Navigation from './components/Navigation'
+import SignupPage from './pages/SignupPage'
 
 const App = () => {
   return (
@@ -18,6 +19,9 @@ const App = () => {
         </Route>
         <Route path={'/event/:id'}>
           <EventDetailsPage />
+        </Route>
+        <Route path={'/signup'}>
+          <SignupPage />
         </Route>
       </Switch>
     </>

@@ -10,6 +10,9 @@ const Navigation = () => {
       <li>
         <Link to="/create">Create</Link>
       </li>
+      <li>
+        <Link to="/signup">Sign up</Link>
+      </li>
     </ul>
   )
 }
