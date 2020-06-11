@@ -1,4 +1,4 @@
-it('successfully creates new user account', () => {
+it('successfully creates new user account and logs out', () => {
   const email = 'test.user@email.com'
   const password = 'password1234'
 
@@ -21,4 +21,7 @@ it('successfully creates new user account', () => {
     .type(password)
   cy.findByText('Submit')
     .click()
+  cy.findByText('Log out')
+    .click()
+  cy.findByText('Sign up')
 })
