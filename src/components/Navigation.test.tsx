@@ -3,19 +3,15 @@ import { render, fireEvent } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import Navigation from './Navigation'
-import * as ReactRedux from 'react-redux'
-
-jest.mock('react-redux')
-const mockedReactRedux = ReactRedux as jest.Mocked<typeof ReactRedux>
 
 test('navigates to links', () => {
-  mockedReactRedux.useSelector.mockReturnValueOnce(null)
-
   const history = createMemoryHistory()
+  const isLoggedIn = false
+  const onLogout = jest.fn()
 
   const { getByText } = render(
     <Router history={history}>
-      <Navigation />
+      <Navigation isLoggedIn={isLoggedIn} onLogout={onLogout} />
     </Router>
   )
 
@@ -33,20 +29,18 @@ test('navigates to links', () => {
 })
 
 test('log out visible and clickable when user is logged in', () => {
-  const mockedDispatch = jest.fn()
-  mockedReactRedux.useSelector.mockReturnValueOnce(true)
-  mockedReactRedux.useDispatch = jest.fn(() => mockedDispatch)
-
   const history = createMemoryHistory()
+  const isLoggedIn = true
+  const onLogout = jest.fn()
 
   const { getByText } = render(
     <Router history={history}>
-      <Navigation />
+      <Navigation isLoggedIn={isLoggedIn} onLogout={onLogout} />
     </Router>
   )
 
   fireEvent.click(getByText('log out', { exact: false }))
 
   expect(history.location.pathname).toBe('/')
-  expect(mockedDispatch).toHaveBeenCalledTimes(1)
+  expect(onLogout).toHaveBeenCalledTimes(1)
 })

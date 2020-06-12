@@ -1,5 +1,8 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
+import { useTypedSelector } from './store'
+import { logout } from './slices/userSlice'
 import EventsPaige from './pages/EventsPaige'
 import CreateEventPage from './pages/CreateEventPage'
 import EventDetailsPage from './pages/EventDetailsPage'
@@ -7,9 +10,14 @@ import Navigation from './components/Navigation'
 import SignupPage from './pages/SignupPage'
 
 const App = () => {
+  const user = useTypedSelector((state) => state.user)
+  const dispatch = useDispatch()
   return (
     <>
-      <Navigation />
+      <Navigation
+        isLoggedIn={Boolean(user)}
+        onLogout={() => dispatch(logout())}
+      />
       <Switch>
         <Route exact path={'/'}>
           <EventsPaige />

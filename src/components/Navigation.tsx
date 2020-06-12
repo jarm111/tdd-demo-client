@@ -1,16 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useTypedSelector } from '../store'
-import { logout } from '../slices/userSlice'
 
-const Navigation = () => {
-  const user = useTypedSelector((state) => state.user)
-  const dispatch = useDispatch()
+type Props = {
+  isLoggedIn: boolean
+  onLogout: () => void
+}
 
-  const LogoutButton = () => (
-    <button onClick={() => dispatch(logout())}>Log out</button>
-  )
+const Navigation = ({ isLoggedIn, onLogout }: Props) => {
+  const LogoutButton = () => <button onClick={onLogout}>Log out</button>
 
   return (
     <ul>
@@ -21,7 +18,7 @@ const Navigation = () => {
         <Link to="/create">Create</Link>
       </li>
       <li>
-        {user ? (
+        {isLoggedIn ? (
           <Link to="/">
             <LogoutButton />
           </Link>
