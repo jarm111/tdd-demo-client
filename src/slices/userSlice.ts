@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
 import User from '../types/User'
 import userService, { Credentials } from '../services/userService'
 
@@ -18,11 +19,13 @@ const userSlice = createSlice({
   reducers: {
     logout: () => {
       userService.clearUser()
+      toast(`Logged out!`)
       return null
     },
   },
   extraReducers: (builder) => {
     builder.addCase(signup.fulfilled, (_, { payload }) => {
+      toast(`Successfully created new account with ${payload.email}!`)
       return payload
     })
   },

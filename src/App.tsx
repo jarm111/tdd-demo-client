@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { useTypedSelector } from './store'
 import { logout } from './slices/userSlice'
 import EventsPaige from './pages/EventsPaige'
@@ -14,6 +16,7 @@ const App = () => {
   const dispatch = useDispatch()
   return (
     <>
+      <ToastContainer />
       <Navigation
         isLoggedIn={Boolean(user)}
         onLogout={() => dispatch(logout())}
