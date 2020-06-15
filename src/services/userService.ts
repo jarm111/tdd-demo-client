@@ -15,7 +15,12 @@ const userService = {
       window.localStorage.setItem(localStorageKey, JSON.stringify(data))
       return data
     } catch (e) {
-      console.error(e)
+      const {
+        status,
+        statusText,
+        data: { error },
+      } = e.response
+      throw new Error(`Status: ${status} ${statusText}, ${error}`)
     }
   },
   clearUser: () => {
