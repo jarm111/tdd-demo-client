@@ -3,9 +3,18 @@ import { toast } from 'react-toastify'
 import User from '../types/User'
 import userService, { Credentials } from '../services/userService'
 
-type State = User | null
+type State = {
+  user: User | null
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed'
+}
+
 type Error = {
   message: string
+}
+
+const initialState: State = {
+  user: null,
+  loading: 'idle',
 }
 
 export const signup = createAsyncThunk<
@@ -23,22 +32,34 @@ export const signup = createAsyncThunk<
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: null as State,
+  initialState,
   reducers: {
-    logout: () => {
+    logout: (_) => {
       userService.clearUser()
       toast(`Logged out!`)
-      return null
+      return { loading: 'idle', user: null }
     },
   },
   extraReducers: (builder) => {
     builder.addCase(signup.fulfilled, (_, { payload }) => {
       toast(`Successfully created new account with ${payload.email}!`)
-      return payload
+      return {
+        user: payload,
+        loading: 'succeeded',
+      }
     })
     builder.addCase(signup.rejected, (_, { payload }) => {
       toast(payload, { type: 'error' })
-      return null
+      return {
+        user: null,
+        loading: 'failed',
+      }
+    })
+    builder.addCase(signup.pending, () => {
+      return {
+        user: null,
+        loading: 'pending',
+      }
     })
   },
 })

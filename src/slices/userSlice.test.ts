@@ -12,10 +12,15 @@ const setup = () =>
     },
   })
 
-test('returns null as initial state', () => {
+test('returns correct initial state', () => {
   const store = setup()
 
-  expect(store.getState().user).toBeNull()
+  const correctInitialState = {
+    user: null,
+    loading: 'idle',
+  }
+
+  expect(store.getState().user).toEqual(correctInitialState)
 })
 
 test('signs up user', async () => {
@@ -24,20 +29,27 @@ test('signs up user', async () => {
     email: 'test.user@email.com',
     password: 'password1234',
   }
+
   const user = {
     token: 'token123',
     email: credentials.email,
     id: 'user123',
   }
+
   const response = {
     data: user,
+  }
+
+  const endState = {
+    user,
+    loading: 'succeeded',
   }
 
   mockedAxios.post.mockResolvedValue(response)
 
   await store.dispatch(signup(credentials))
 
-  expect(store.getState().user).toEqual(user)
+  expect(store.getState().user).toEqual(endState)
 })
 
 test('logs out user', async () => {
@@ -46,20 +58,75 @@ test('logs out user', async () => {
     email: 'test.user@email.com',
     password: 'password1234',
   }
+
   const user = {
     token: 'token123',
     email: credentials.email,
     id: 'user123',
   }
+
   const response = {
     data: user,
+  }
+
+  const endState = {
+    user: null,
+    loading: 'idle',
   }
 
   mockedAxios.post.mockResolvedValue(response)
 
   await store.dispatch(signup(credentials))
 
-  await store.dispatch(logout())
+  store.dispatch(logout())
 
-  expect(store.getState().user).toBeNull()
+  expect(store.getState().user).toEqual(endState)
+})
+
+test('pending sign up', async () => {
+  const store = setup()
+  const credentials = {
+    email: 'test.user@email.com',
+    password: 'password1234',
+  }
+
+  const user = {
+    token: 'token123',
+    email: credentials.email,
+    id: 'user123',
+  }
+
+  const response = {
+    data: user,
+  }
+
+  const endState = {
+    user: null,
+    loading: 'pending',
+  }
+
+  mockedAxios.post.mockResolvedValue(response)
+
+  store.dispatch(signup(credentials))
+
+  expect(store.getState().user).toEqual(endState)
+})
+
+test('failed sign up', async () => {
+  const store = setup()
+  const credentials = {
+    email: 'test.user@email.com',
+    password: 'password1234',
+  }
+
+  const endState = {
+    user: null,
+    loading: 'failed',
+  }
+
+  mockedAxios.post.mockRejectedValue(Error('Oops, something went wrong'))
+
+  await store.dispatch(signup(credentials))
+
+  expect(store.getState().user).toEqual(endState)
 })

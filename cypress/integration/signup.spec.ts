@@ -10,7 +10,8 @@ it('successfully creates new user account and logs out', () => {
       token: 'token123',
       email,
       id: 'user123'
-    }
+    },
+    delay: 100
   })
 
   cy.visit('/')
@@ -21,6 +22,7 @@ it('successfully creates new user account and logs out', () => {
     .type(password)
   cy.findByText('Submit')
     .click()
+  cy.findByRole('progressbar')
   cy.findByText('Successfully created', {exact: false})
   cy.findByText('Log out')
     .click()

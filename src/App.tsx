@@ -12,7 +12,7 @@ import Navigation from './components/Navigation'
 import SignupPage from './pages/SignupPage'
 
 const App = () => {
-  const user = useTypedSelector((state) => state.user)
+  const { user } = useTypedSelector((state) => state.user)
   const dispatch = useDispatch()
   return (
     <>
