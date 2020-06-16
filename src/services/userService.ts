@@ -1,12 +1,8 @@
 import axios from 'axios'
+import Credentials from '../types/Credentials'
 
 const signupUrl = '/api/signup'
 const localStorageKey = 'Login'
-
-export type Credentials = {
-  email: string
-  password: string
-}
 
 const userService = {
   signup: async (credentials: Credentials) => {

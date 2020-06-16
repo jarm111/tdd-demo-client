@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import SignupForm from './SignupForm'
+import { credentials } from '../mocks/userMockData'
 
 const setup = () => {
   const onSubmit = jest.fn()
@@ -17,8 +18,7 @@ test('form fill and submit', async () => {
     result: { getByLabelText, getByText },
   } = setup()
 
-  const email = 'john.doe@email.com'
-  const password = 'password123'
+  const { email, password } = credentials
 
   fireEvent.input(getByLabelText('email-input'), {
     target: { value: email },

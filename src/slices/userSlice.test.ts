@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import axios from 'axios'
 import userReducer, { signup, logout } from './userSlice'
+import { user, credentials } from '../mocks/userMockData'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -25,16 +26,6 @@ test('returns correct initial state', () => {
 
 test('signs up user', async () => {
   const store = setup()
-  const credentials = {
-    email: 'test.user@email.com',
-    password: 'password1234',
-  }
-
-  const user = {
-    token: 'token123',
-    email: credentials.email,
-    id: 'user123',
-  }
 
   const response = {
     data: user,
@@ -54,16 +45,6 @@ test('signs up user', async () => {
 
 test('logs out user', async () => {
   const store = setup()
-  const credentials = {
-    email: 'test.user@email.com',
-    password: 'password1234',
-  }
-
-  const user = {
-    token: 'token123',
-    email: credentials.email,
-    id: 'user123',
-  }
 
   const response = {
     data: user,
@@ -85,16 +66,6 @@ test('logs out user', async () => {
 
 test('pending sign up', async () => {
   const store = setup()
-  const credentials = {
-    email: 'test.user@email.com',
-    password: 'password1234',
-  }
-
-  const user = {
-    token: 'token123',
-    email: credentials.email,
-    id: 'user123',
-  }
 
   const response = {
     data: user,
@@ -114,10 +85,6 @@ test('pending sign up', async () => {
 
 test('failed sign up', async () => {
   const store = setup()
-  const credentials = {
-    email: 'test.user@email.com',
-    password: 'password1234',
-  }
 
   const endState = {
     user: null,

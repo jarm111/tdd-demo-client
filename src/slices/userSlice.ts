@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import User from '../types/User'
-import userService, { Credentials } from '../services/userService'
+import Credentials from '../types/Credentials'
+import userService from '../services/userService'
 
 type State = {
   user: User | null
