@@ -23,9 +23,9 @@ test('navigates to links', () => {
 
   expect(history.location.pathname).toBe('/create')
 
-  fireEvent.click(getByText('sign up', { exact: false }))
+  fireEvent.click(getByText('login', { exact: false }))
 
-  expect(history.location.pathname).toBe('/signup')
+  expect(history.location.pathname).toBe('/login')
 })
 
 test('log out visible and clickable when user is logged in', () => {

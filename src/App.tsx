@@ -10,6 +10,7 @@ import CreateEventPage from './pages/CreateEventPage'
 import EventDetailsPage from './pages/EventDetailsPage'
 import Navigation from './components/Navigation'
 import SignupPage from './pages/SignupPage'
+import LoginPage from './pages/LoginPage'
 
 const App = () => {
   const { user } = useTypedSelector((state) => state.user)
@@ -33,6 +34,9 @@ const App = () => {
         </Route>
         <Route path={'/signup'}>
           <SignupPage />
+        </Route>
+        <Route path={'/login'}>
+          <LoginPage />
         </Route>
       </Switch>
     </>

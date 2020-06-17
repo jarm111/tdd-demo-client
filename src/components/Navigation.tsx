@@ -23,7 +23,7 @@ const Navigation = ({ isLoggedIn, onLogout }: Props) => {
             <LogoutButton />
           </Link>
         ) : (
-          <Link to="/signup">Sign up</Link>
+          <Link to="/login">Login</Link>
         )}
       </li>
     </ul>
