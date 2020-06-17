@@ -19,6 +19,7 @@ const SignupForm = ({ onSubmit }: Props) => {
 
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+      <label>Email</label>
       <input
         name="email"
         ref={register}
@@ -26,6 +27,7 @@ const SignupForm = ({ onSubmit }: Props) => {
         defaultValue=""
       />
       {errors.email && errors.email.message}
+      <label>Password</label>
       <input
         type="password"
         name="password"
