@@ -1,22 +1,51 @@
 import axios from 'axios'
 import Credentials from '../types/Credentials'
+import User from '../types/User'
+
+type ResponseError = {
+  response: {
+    status: number
+    statusText: string
+    data: {
+      error: string
+    }
+  }
+}
 
 const signupUrl = '/api/signup'
+const loginUrl = '/api/login'
 const localStorageKey = 'Login'
+
+const setUser = (data: User) => {
+  window.localStorage.setItem(localStorageKey, JSON.stringify(data))
+}
+
+const throwError = (e: ResponseError) => {
+  const {
+    status,
+    statusText,
+    data: { error },
+  } = e.response
+  throw new Error(`Status: ${status} ${statusText}, ${error}`)
+}
 
 const userService = {
   signup: async (credentials: Credentials) => {
     try {
       const { data } = await axios.post(signupUrl, credentials)
-      window.localStorage.setItem(localStorageKey, JSON.stringify(data))
+      setUser(data)
       return data
     } catch (e) {
-      const {
-        status,
-        statusText,
-        data: { error },
-      } = e.response
-      throw new Error(`Status: ${status} ${statusText}, ${error}`)
+      throwError(e)
+    }
+  },
+  login: async (credentials: Credentials) => {
+    try {
+      const { data } = await axios.post(loginUrl, credentials)
+      setUser(data)
+      return data
+    } catch (e) {
+      throwError(e)
     }
   },
   clearUser: () => {

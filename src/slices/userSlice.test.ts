@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import userReducer, { signup, logout } from './userSlice'
+import userReducer, { signup, logout, login } from './userSlice'
 import { user, credentials } from '../mocks/userMockData'
 
 jest.mock('axios')
@@ -94,6 +94,59 @@ test('failed sign up', async () => {
   mockedAxios.post.mockRejectedValue(Error('Oops, something went wrong'))
 
   await store.dispatch(signup(credentials))
+
+  expect(store.getState().user).toEqual(endState)
+})
+
+test('logs in user', async () => {
+  const store = setup()
+
+  const response = {
+    data: user,
+  }
+
+  const endState = {
+    user,
+    loading: 'succeeded',
+  }
+
+  mockedAxios.post.mockResolvedValue(response)
+
+  await store.dispatch(login(credentials))
+
+  expect(store.getState().user).toEqual(endState)
+})
+
+test('failed log in', async () => {
+  const store = setup()
+
+  const endState = {
+    user: null,
+    loading: 'failed',
+  }
+
+  mockedAxios.post.mockRejectedValue(Error('Oops, something went wrong'))
+
+  await store.dispatch(login(credentials))
+
+  expect(store.getState().user).toEqual(endState)
+})
+
+test('pending log in', async () => {
+  const store = setup()
+
+  const response = {
+    data: user,
+  }
+
+  const endState = {
+    user: null,
+    loading: 'pending',
+  }
+
+  mockedAxios.post.mockResolvedValue(response)
+
+  store.dispatch(login(credentials))
 
   expect(store.getState().user).toEqual(endState)
 })

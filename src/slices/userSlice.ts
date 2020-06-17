@@ -31,6 +31,19 @@ export const signup = createAsyncThunk<
   }
 })
 
+export const login = createAsyncThunk<
+  User,
+  Credentials,
+  { rejectValue: Error }
+>('user/login', async (credentials, thunkAPI) => {
+  try {
+    const data = await userService.login(credentials)
+    return data
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message)
+  }
+})
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -57,6 +70,26 @@ const userSlice = createSlice({
       }
     })
     builder.addCase(signup.pending, () => {
+      return {
+        user: null,
+        loading: 'pending',
+      }
+    })
+    builder.addCase(login.fulfilled, (_, { payload }) => {
+      toast(`Successfully logged in with ${payload.email}!`)
+      return {
+        user: payload,
+        loading: 'succeeded',
+      }
+    })
+    builder.addCase(login.rejected, (_, { payload }) => {
+      toast(payload, { type: 'error' })
+      return {
+        user: null,
+        loading: 'failed',
+      }
+    })
+    builder.addCase(login.pending, () => {
       return {
         user: null,
         loading: 'pending',
