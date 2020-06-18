@@ -51,6 +51,13 @@ const userService = {
   clearUser: () => {
     window.localStorage.removeItem(localStorageKey)
   },
+  getUser: (): User | null => {
+    const user = window.localStorage.getItem('Login')
+    if (user) {
+      return JSON.parse(user)
+    }
+    return null
+  },
 }
 
 export default userService

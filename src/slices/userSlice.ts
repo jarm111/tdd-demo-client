@@ -53,6 +53,13 @@ const userSlice = createSlice({
       toast(`Logged out!`)
       return { loading: 'idle', user: null }
     },
+    initUser: (state) => {
+      const user = userService.getUser()
+      if (user) {
+        return { loading: 'succeeded', user }
+      }
+      return state
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signup.fulfilled, (_, { payload }) => {
@@ -98,6 +105,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { logout } = userSlice.actions
+export const { logout, initUser } = userSlice.actions
 
 export default userSlice.reducer
