@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useTypedSelector } from './store'
 import { logout } from './slices/userSlice'
-import EventsPaige from './pages/EventsPaige'
+import EventsPage from './pages/EventsPage'
 import CreateEventPage from './pages/CreateEventPage'
 import EventDetailsPage from './pages/EventDetailsPage'
 import Navigation from './components/Navigation'
@@ -24,7 +24,7 @@ const App = () => {
       />
       <Switch>
         <Route exact path={'/'}>
-          <EventsPaige />
+          <EventsPage />
         </Route>
         <Route path={'/create'}>
           <CreateEventPage />

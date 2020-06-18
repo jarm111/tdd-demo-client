@@ -3,7 +3,7 @@ import { useTypedSelector } from '../store'
 import { useHistory } from 'react-router-dom'
 import EventList from '../components/EventList'
 
-const EventsPaige = () => {
+const EventsPage = () => {
   const history = useHistory()
   const events = useTypedSelector((state) => state.events)
 
@@ -19,4 +19,4 @@ const EventsPaige = () => {
   )
 }
 
-export default EventsPaige
+export default EventsPage
