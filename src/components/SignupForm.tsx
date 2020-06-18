@@ -1,14 +1,25 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import Credentials from '../types/Credentials'
 
 type Props = {
-  onSubmit: (data: Record<string, any>) => void
+  onSubmit: (credentials: Credentials) => void
 }
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required().min(8),
+  retypePassword: yup
+    .string()
+    .required()
+    .test(
+      'equals-password',
+      'Retyped password does not match password',
+      function (value) {
+        return value === this.parent.password
+      }
+    ),
 })
 
 const SignupForm = ({ onSubmit }: Props) => {
@@ -17,8 +28,16 @@ const SignupForm = ({ onSubmit }: Props) => {
     validationSchema: schema,
   })
 
+  const filterSubmitValue = (data: Record<string, any>) => {
+    const { email, password } = data
+    onSubmit({
+      email,
+      password,
+    })
+  }
+
   return (
-    <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+    <form onSubmit={handleSubmit(filterSubmitValue)}>
       <label>Email</label>
       <input
         name="email"
@@ -36,6 +55,15 @@ const SignupForm = ({ onSubmit }: Props) => {
         defaultValue=""
       />
       {errors.password && errors.password.message}
+      <label>Retype password</label>
+      <input
+        type="password"
+        name="retypePassword"
+        ref={register}
+        aria-label="retype-password-input"
+        defaultValue=""
+      />
+      {errors.retypePassword && errors.retypePassword.message}
       <input type="submit" value="Submit" />
     </form>
   )

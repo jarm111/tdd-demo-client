@@ -28,6 +28,10 @@ test('form fill and submit', async () => {
     target: { value: password },
   })
 
+  fireEvent.input(getByLabelText('retype-password-input'), {
+    target: { value: password },
+  })
+
   await act(async () => {
     fireEvent.click(getByText('Submit'))
   })
@@ -85,4 +89,27 @@ test('password validation', async () => {
   })
 
   getByText('password must be at least', { exact: false })
+})
+
+test('retype password validation', async () => {
+  const {
+    result: { getByLabelText, getByText },
+  } = setup()
+
+  const { password } = credentials
+  const wrongRetypedPassword = 'it-is-not-correct'
+
+  fireEvent.input(getByLabelText('password-input'), {
+    target: { value: password },
+  })
+
+  fireEvent.input(getByLabelText('retype-password-input'), {
+    target: { value: wrongRetypedPassword },
+  })
+
+  await act(async () => {
+    fireEvent.blur(getByLabelText('retype-password-input'))
+  })
+
+  getByText('retyped password does not match', { exact: false })
 })
