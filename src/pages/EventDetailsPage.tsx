@@ -5,7 +5,7 @@ import EventDetails from '../components/EventDetails'
 
 const EventDetailsPage = () => {
   const { id } = useParams()
-  const events = useTypedSelector((state) => state.events)
+  const { events } = useTypedSelector((state) => state.events)
 
   const event = events.find((event) => event.id === id)
 
