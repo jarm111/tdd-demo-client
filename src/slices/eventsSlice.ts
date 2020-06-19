@@ -38,7 +38,7 @@ const eventsSlice = createSlice({
     builder.addCase(getEvents.fulfilled, (state, { payload }) => {
       return {
         loading: false,
-        events: state.events.concat(payload),
+        events: payload,
       }
     })
     builder.addCase(getEvents.pending, (state) => {
