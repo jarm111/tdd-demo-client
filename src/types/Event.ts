@@ -1,11 +1,8 @@
-import Category from './Category'
+import NewEvent from './NewEvent'
 
-type Event = Readonly<{
-  id: string
-  title: string
-  date: string
-  description: string
-  category: Category
-}>
+type Event = NewEvent &
+  Readonly<{
+    id: string
+  }>
 
 export default Event
