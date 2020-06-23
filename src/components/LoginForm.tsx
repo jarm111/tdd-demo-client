@@ -1,9 +1,10 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import Credentials from '../types/Credentials'
 
 type Props = {
-  onSubmit: (data: Record<string, any>) => void
+  onSubmit: (data: Credentials) => void
 }
 
 const schema = yup.object().shape({
@@ -18,7 +19,7 @@ const LoginForm = ({ onSubmit }: Props) => {
   })
 
   return (
-    <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+    <form onSubmit={handleSubmit((data) => onSubmit(data as Credentials))}>
       <label>Email</label>
       <input
         name="email"

@@ -5,13 +5,14 @@ import { login } from '../slices/userSlice'
 import { useTypedSelector } from '../store'
 import LoginForm from '../components/LoginForm'
 import LoadingIndicator from '../components/LoadingIndicator'
+import Credentials from '../types/Credentials'
 
 const LoginPage = () => {
   const { loading } = useTypedSelector((state) => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: Credentials) => {
     dispatch(login(data))
   }
 
