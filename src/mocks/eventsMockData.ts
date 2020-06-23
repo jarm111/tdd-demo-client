@@ -1,4 +1,5 @@
 import Event from '../types/Event'
+import NewEvent from '../types/NewEvent'
 
 const eventsMockData: Event[] = [
   {
@@ -23,5 +24,12 @@ const eventsMockData: Event[] = [
     category: 'sports',
   },
 ]
+
+export const newEvent: NewEvent = {
+  title: 'My event four',
+  date: '2020-04-27',
+  description: 'Welcome to my event four.',
+  category: 'dancing',
+}
 
 export default eventsMockData

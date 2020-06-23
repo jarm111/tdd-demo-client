@@ -8,13 +8,8 @@ const CreateEventPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const generateRandomId = () =>
-    Math.floor(Math.random() * Math.floor(1000000000)).toString()
-
   const handleSubmit = (data: any) => {
-    const id = generateRandomId()
-    const newEventWithId = { ...data, id }
-    dispatch(addEvent(newEventWithId))
+    dispatch(addEvent(data))
     history.push('/')
   }
 

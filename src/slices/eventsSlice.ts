@@ -1,7 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import Event from '../types/Event'
+import NewEvent from '../types/NewEvent'
 import eventService from '../services/eventService'
+import { RootState } from '../store'
 
 type State = {
   events: Event[]
@@ -26,14 +28,28 @@ export const getEvents = createAsyncThunk<
   }
 })
 
+export const addEvent = createAsyncThunk<
+  Event,
+  NewEvent,
+  {
+    rejectValue: Error
+    state: RootState
+  }
+>('events/create', async (event, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().user.user?.token || ''
+
+    const data = await eventService.createEvent(event, token)
+    return data
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message)
+  }
+})
+
 const eventsSlice = createSlice({
   name: 'events',
   initialState,
-  reducers: {
-    addEvent: (state, action: PayloadAction<Event>) => {
-      state.events.push(action.payload)
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getEvents.fulfilled, (state, { payload }) => {
       return {
@@ -51,9 +67,13 @@ const eventsSlice = createSlice({
         loading: false,
       }
     })
+    builder.addCase(addEvent.fulfilled, (state, { payload }) => {
+      return {
+        ...state,
+        events: state.events.concat(payload),
+      }
+    })
   },
 })
-
-export const { addEvent } = eventsSlice.actions
 
 export default eventsSlice.reducer

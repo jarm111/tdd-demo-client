@@ -14,7 +14,7 @@ const store = configureStore({
 
 store.dispatch(initUser())
 
-type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export default store
