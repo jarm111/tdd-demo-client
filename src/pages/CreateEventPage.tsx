@@ -4,8 +4,11 @@ import { useHistory } from 'react-router-dom'
 import { addEvent } from '../slices/eventsSlice'
 import EventForm from '../components/EventForm'
 import NewEvent from '../types/NewEvent'
+import { useTypedSelector } from '../store'
+import LoadingIndicator from '../components/LoadingIndicator'
 
 const CreateEventPage = () => {
+  const { addEventLoading } = useTypedSelector((state) => state.events)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -18,6 +21,7 @@ const CreateEventPage = () => {
     <div>
       <h2>Create new event</h2>
       <EventForm onSubmit={handleSubmit} />
+      <LoadingIndicator loading={addEventLoading} />
     </div>
   )
 }

@@ -51,6 +51,7 @@ it('creates new event', () => {
     .type(description)
   cy.findByText('Submit')
     .click()
+  cy.findByRole('progressbar')
   cy.findByText(title)
     .click()
   cy.findByText(description)

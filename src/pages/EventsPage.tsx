@@ -8,7 +8,7 @@ import LoadingIndicator from '../components/LoadingIndicator'
 
 const EventsPage = () => {
   const history = useHistory()
-  const { events, loading } = useTypedSelector((state) => state.events)
+  const { events, getEventsLoading } = useTypedSelector((state) => state.events)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const EventsPage = () => {
   return (
     <div>
       <h1>Events</h1>
-      {loading ? (
+      {getEventsLoading ? (
         <LoadingIndicator loading />
       ) : (
         <EventList onClick={handleClick} events={events} />

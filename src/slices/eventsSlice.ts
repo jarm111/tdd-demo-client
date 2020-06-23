@@ -7,12 +7,14 @@ import { RootState } from '../store'
 
 type State = {
   events: Event[]
-  loading: boolean
+  getEventsLoading: boolean
+  addEventLoading: boolean
 }
 
 const initialState: State = {
   events: [],
-  loading: false,
+  getEventsLoading: false,
+  addEventLoading: false,
 }
 
 export const getEvents = createAsyncThunk<
@@ -52,26 +54,24 @@ const eventsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getEvents.fulfilled, (state, { payload }) => {
-      return {
-        loading: false,
-        events: payload,
-      }
+      return { ...state, getEventsLoading: false, events: payload }
     })
     builder.addCase(getEvents.pending, (state) => {
-      return { ...state, loading: true }
+      return { ...state, getEventsLoading: true }
     })
     builder.addCase(getEvents.rejected, (state, { payload }) => {
       toast(payload, { type: 'error' })
-      return {
-        events: state.events,
-        loading: false,
-      }
+      return { ...state, getEventsLoading: false }
     })
     builder.addCase(addEvent.fulfilled, (state, { payload }) => {
       return {
         ...state,
         events: state.events.concat(payload),
+        addEventLoading: false,
       }
+    })
+    builder.addCase(addEvent.pending, (state) => {
+      return { ...state, addEventLoading: true }
     })
   },
 })
