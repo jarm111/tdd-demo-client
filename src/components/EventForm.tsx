@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { ALL_CATEGORIES } from '../types/Category'
+import NewEvent from '../types/NewEvent'
 
 const schema = yup.object().shape({
   title: yup.string().required().min(3).max(100),
@@ -17,7 +18,7 @@ const schema = yup.object().shape({
 })
 
 type Props = {
-  onSubmit: (data: Record<string, any>) => void
+  onSubmit: (data: NewEvent) => void
 }
 
 const EventForm = ({ onSubmit }: Props) => {
@@ -27,7 +28,7 @@ const EventForm = ({ onSubmit }: Props) => {
   })
 
   return (
-    <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+    <form onSubmit={handleSubmit((data) => onSubmit(data as NewEvent))}>
       <label>Title</label>
       <input
         name="title"
