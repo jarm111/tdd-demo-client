@@ -14,9 +14,11 @@ const Navigation = ({ isLoggedIn, onLogout }: Props) => {
       <li>
         <Link to="/">Events</Link>
       </li>
-      <li>
-        <Link to="/create">Create</Link>
-      </li>
+      {isLoggedIn && (
+        <li>
+          <Link to="/create">Create</Link>
+        </li>
+      )}
       <li>
         {isLoggedIn ? (
           <Link to="/">

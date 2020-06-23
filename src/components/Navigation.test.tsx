@@ -19,10 +19,6 @@ test('navigates to links', () => {
 
   expect(history.location.pathname).toBe('/')
 
-  fireEvent.click(getByText('create', { exact: false }))
-
-  expect(history.location.pathname).toBe('/create')
-
   fireEvent.click(getByText('login', { exact: false }))
 
   expect(history.location.pathname).toBe('/login')
@@ -38,6 +34,10 @@ test('log out visible and clickable when user is logged in', () => {
       <Navigation isLoggedIn={isLoggedIn} onLogout={onLogout} />
     </Router>
   )
+
+  fireEvent.click(getByText('create', { exact: false }))
+
+  expect(history.location.pathname).toBe('/create')
 
   fireEvent.click(getByText('log out', { exact: false }))
 

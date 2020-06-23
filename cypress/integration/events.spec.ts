@@ -1,4 +1,5 @@
 import events from '../../src/mocks/eventsMockData'
+import {user} from '../../src/mocks/userMockData'
 
 it('displays events and opens details on click', () => {
   const [, , {title, description}] = events
@@ -32,6 +33,10 @@ it('creates new event', () => {
     url: '/api/events',
     response: {...event, id: '4'},
     delay: 100
+  })
+
+  cy.window().then(window => {
+    window.localStorage.setItem('Login', JSON.stringify(user))
   })
 
   cy.visit('/')
