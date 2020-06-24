@@ -1,21 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createAsyncThunk,
+  combineReducers,
+} from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import Event from '../types/Event'
 import NewEvent from '../types/NewEvent'
 import eventService from '../services/eventService'
 import { RootState } from '../store'
+import initLoadingReducer from './loadingSlice'
 
-type State = {
-  events: Event[]
-  getEventsLoading: boolean
-  addEventLoading: boolean
-}
-
-const initialState: State = {
-  events: [],
-  getEventsLoading: false,
-  addEventLoading: false,
-}
+const [getEventsLoading, setGetEventsLoading] = initLoadingReducer('getEvents')
+const [addEventLoading, setAddEventLoading] = initLoadingReducer('addEvent')
 
 export const getEvents = createAsyncThunk<
   Event[],
@@ -23,10 +19,13 @@ export const getEvents = createAsyncThunk<
   { rejectValue: Error }
 >('events/get', async (_, thunkAPI) => {
   try {
+    thunkAPI.dispatch(setGetEventsLoading('pending'))
     const data = await eventService.fetchEvents()
+    thunkAPI.dispatch(setGetEventsLoading('success'))
     return data
   } catch (e) {
-    return thunkAPI.rejectWithValue(e.message)
+    thunkAPI.dispatch(setGetEventsLoading('failure'))
+    toast(e.message, { type: 'error' })
   }
 })
 
@@ -39,41 +38,36 @@ export const addEvent = createAsyncThunk<
   }
 >('events/create', async (event, thunkAPI) => {
   try {
+    thunkAPI.dispatch(setAddEventLoading('pending'))
     const token = thunkAPI.getState().user.user?.token || ''
 
     const data = await eventService.createEvent(event, token)
+    thunkAPI.dispatch(setAddEventLoading('success'))
     return data
   } catch (e) {
+    thunkAPI.dispatch(setAddEventLoading('failure'))
     return thunkAPI.rejectWithValue(e.message)
   }
 })
 
 const eventsSlice = createSlice({
   name: 'events',
-  initialState,
+  initialState: [] as Event[],
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getEvents.fulfilled, (state, { payload }) => {
-      return { ...state, getEventsLoading: false, events: payload }
-    })
-    builder.addCase(getEvents.pending, (state) => {
-      return { ...state, getEventsLoading: true }
-    })
-    builder.addCase(getEvents.rejected, (state, { payload }) => {
-      toast(payload, { type: 'error' })
-      return { ...state, getEventsLoading: false }
+    builder.addCase(getEvents.fulfilled, (_, { payload }) => {
+      return payload
     })
     builder.addCase(addEvent.fulfilled, (state, { payload }) => {
-      return {
-        ...state,
-        events: state.events.concat(payload),
-        addEventLoading: false,
-      }
-    })
-    builder.addCase(addEvent.pending, (state) => {
-      return { ...state, addEventLoading: true }
+      return state.concat(payload)
     })
   },
 })
 
-export default eventsSlice.reducer
+export default combineReducers({
+  events: eventsSlice.reducer,
+  getEventsLoading,
+  addEventLoading,
+})
+
+export { setGetEventsLoading, setAddEventLoading }

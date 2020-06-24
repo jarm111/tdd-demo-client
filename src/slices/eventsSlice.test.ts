@@ -19,8 +19,8 @@ test('returns correct initial state', () => {
   const store = setup()
   const initialState = {
     events: [],
-    getEventsLoading: false,
-    addEventLoading: false,
+    getEventsLoading: 'idle',
+    addEventLoading: 'idle',
   }
 
   expect(store.getState().events).toEqual(initialState)
@@ -35,15 +35,14 @@ test('gets events', async () => {
 
   const endState = {
     events,
-    getEventsLoading: false,
-    addEventLoading: false,
+    getEventsLoading: 'success',
   }
 
   mockedAxios.get.mockResolvedValue(response)
 
   await store.dispatch(getEvents())
 
-  expect(store.getState().events).toEqual(endState)
+  expect(store.getState().events).toMatchObject(endState)
 })
 
 test('pending get events', () => {
@@ -55,15 +54,14 @@ test('pending get events', () => {
 
   const endState = {
     events: [],
-    getEventsLoading: true,
-    addEventLoading: false,
+    getEventsLoading: 'pending',
   }
 
   mockedAxios.get.mockResolvedValue(response)
 
   store.dispatch(getEvents())
 
-  expect(store.getState().events).toEqual(endState)
+  expect(store.getState().events).toMatchObject(endState)
 })
 
 test('adds new event', async () => {
@@ -79,15 +77,14 @@ test('adds new event', async () => {
 
   const endState = {
     events: [eventWithId],
-    getEventsLoading: false,
-    addEventLoading: false,
+    addEventLoading: 'success',
   }
 
   mockedAxios.post.mockResolvedValue(response)
 
   await store.dispatch(addEvent(newEvent))
 
-  expect(store.getState().events).toEqual(endState)
+  expect(store.getState().events).toMatchObject(endState)
 })
 
 test('pending add event', async () => {
@@ -95,13 +92,12 @@ test('pending add event', async () => {
 
   const endState = {
     events: [],
-    getEventsLoading: false,
-    addEventLoading: true,
+    addEventLoading: 'pending',
   }
 
   mockedAxios.post.mockResolvedValue({})
 
   store.dispatch(addEvent(newEvent))
 
-  expect(store.getState().events).toEqual(endState)
+  expect(store.getState().events).toMatchObject(endState)
 })

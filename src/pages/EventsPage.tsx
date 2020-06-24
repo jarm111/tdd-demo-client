@@ -22,7 +22,7 @@ const EventsPage = () => {
   return (
     <div>
       <h1>Events</h1>
-      {getEventsLoading ? (
+      {getEventsLoading === 'pending' ? (
         <LoadingIndicator loading />
       ) : (
         <EventList onClick={handleClick} events={events} />
