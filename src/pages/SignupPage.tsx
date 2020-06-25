@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { signup } from '../slices/userSlice'
@@ -12,12 +12,14 @@ const SignupPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  useEffect(() => {
+    if (loading === 'succeeded') {
+      history.push('/')
+    }
+  })
+
   const handleSubmit = (data: Credentials) => {
     dispatch(signup(data))
-  }
-
-  if (loading === 'succeeded') {
-    history.push('/')
   }
 
   return (

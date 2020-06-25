@@ -27,16 +27,16 @@ it('successfully logs in and logs out', () => {
   cy.findByText('Login')
 })
 
-it('it displays error message on failed login', () => {
+it('displays error message on failed login', () => {
   const {email, password} = credentials
 
   cy.server()
   cy.route({
     method: 'POST',
     url: '/api/login',
-    status: 400,
+    status: 401,
     response: {
-      error: "Status: 400, Unauthorized, wrong password"
+      error: "Status: 401, Unauthorized, wrong password"
     }
   })
 
@@ -49,4 +49,5 @@ it('it displays error message on failed login', () => {
   cy.findByText('Submit')
     .click()
   cy.findByText('Unauthorized', {exact: false})
+  cy.url().should('include', '/login')
 })

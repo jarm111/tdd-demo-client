@@ -30,7 +30,7 @@ it('successfully creates new user account and logs out', () => {
   cy.findByText('Login')
 })
 
-it('it displays error message on failed sign up', () => {
+it('displays error message on failed sign up', () => {
   const {email, password} = credentials
 
   cy.server()
@@ -55,4 +55,5 @@ it('it displays error message on failed sign up', () => {
   cy.findByText('Submit')
     .click()
   cy.findByText('Error, expected', {exact: false})
+  cy.url().should('include', '/signup')
 })
