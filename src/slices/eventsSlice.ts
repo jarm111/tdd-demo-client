@@ -26,6 +26,7 @@ export const getEvents = createAsyncThunk<
   } catch (e) {
     thunkAPI.dispatch(setGetEventsLoading('failure'))
     toast(e.message, { type: 'error' })
+    return thunkAPI.rejectWithValue(e.message)
   }
 })
 
@@ -46,6 +47,7 @@ export const addEvent = createAsyncThunk<
     return data
   } catch (e) {
     thunkAPI.dispatch(setAddEventLoading('failure'))
+    toast(e.message, { type: 'error' })
     return thunkAPI.rejectWithValue(e.message)
   }
 })
