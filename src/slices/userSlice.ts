@@ -3,14 +3,11 @@ import { toast } from 'react-toastify'
 import User from '../types/User'
 import Credentials from '../types/Credentials'
 import userService from '../services/userService'
+import Loading from '../types/Loading'
 
 type State = {
   user: User | null
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed'
-}
-
-type Error = {
-  message: string
+  loading: Loading
 }
 
 const initialState: State = {
@@ -48,59 +45,45 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logout: (_) => {
+    logout: (state) => {
       userService.clearUser()
       toast(`Logged out!`)
-      return { loading: 'idle', user: null }
+      state.loading = 'idle'
+      state.user = null
     },
     initUser: (state) => {
       const user = userService.getUser()
       if (user) {
-        return { loading: 'succeeded', user }
+        state.loading = 'success'
+        state.user = user
       }
-      return state
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(signup.fulfilled, (_, { payload }) => {
+    builder.addCase(signup.pending, (state) => {
+      state.loading = 'pending'
+    })
+    builder.addCase(signup.fulfilled, (state, { payload }) => {
+      state.loading = 'success'
+      state.user = payload
       toast(`Successfully created new account with ${payload.email}!`)
-      return {
-        user: payload,
-        loading: 'succeeded',
-      }
     })
-    builder.addCase(signup.rejected, (_, { payload }) => {
+    builder.addCase(signup.rejected, (state, { payload }) => {
+      state.loading = 'failure'
       toast(payload, { type: 'error' })
-      return {
-        user: null,
-        loading: 'failed',
-      }
     })
-    builder.addCase(signup.pending, () => {
-      return {
-        user: null,
-        loading: 'pending',
-      }
+
+    builder.addCase(login.pending, (state) => {
+      state.loading = 'pending'
     })
-    builder.addCase(login.fulfilled, (_, { payload }) => {
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      state.loading = 'success'
+      state.user = payload
       toast(`Successfully logged in with ${payload.email}!`)
-      return {
-        user: payload,
-        loading: 'succeeded',
-      }
     })
-    builder.addCase(login.rejected, (_, { payload }) => {
+    builder.addCase(login.rejected, (state, { payload }) => {
+      state.loading = 'failure'
       toast(payload, { type: 'error' })
-      return {
-        user: null,
-        loading: 'failed',
-      }
-    })
-    builder.addCase(login.pending, () => {
-      return {
-        user: null,
-        loading: 'pending',
-      }
     })
   },
 })

@@ -4,8 +4,7 @@ import Event from '../types/Event'
 import NewEvent from '../types/NewEvent'
 import eventService from '../services/eventService'
 import { RootState } from '../store'
-
-type Loading = 'idle' | 'pending' | 'success' | 'failure'
+import Loading from '../types/Loading'
 
 type State = {
   events: Event[]

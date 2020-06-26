@@ -13,7 +13,7 @@ const setup = () =>
     },
   })
 
-test('returns correct initial state', () => {
+test('initial state', () => {
   const store = setup()
 
   const correctInitialState = {
@@ -33,7 +33,7 @@ test('signs up user', async () => {
 
   const endState = {
     user,
-    loading: 'succeeded',
+    loading: 'success',
   }
 
   mockedAxios.post.mockResolvedValue(response)
@@ -78,9 +78,10 @@ test('pending sign up', async () => {
 
   mockedAxios.post.mockResolvedValue(response)
 
-  store.dispatch(signup(credentials))
-
-  expect(store.getState().user).toEqual(endState)
+  Promise.allSettled([
+    store.dispatch(signup(credentials)),
+    expect(store.getState().user).toEqual(endState),
+  ])
 })
 
 test('failed sign up', async () => {
@@ -88,7 +89,7 @@ test('failed sign up', async () => {
 
   const endState = {
     user: null,
-    loading: 'failed',
+    loading: 'failure',
   }
 
   mockedAxios.post.mockRejectedValue(Error('Oops, something went wrong'))
@@ -107,7 +108,7 @@ test('logs in user', async () => {
 
   const endState = {
     user,
-    loading: 'succeeded',
+    loading: 'success',
   }
 
   mockedAxios.post.mockResolvedValue(response)
@@ -122,7 +123,7 @@ test('failed log in', async () => {
 
   const endState = {
     user: null,
-    loading: 'failed',
+    loading: 'failure',
   }
 
   mockedAxios.post.mockRejectedValue(Error('Oops, something went wrong'))
@@ -146,7 +147,8 @@ test('pending log in', async () => {
 
   mockedAxios.post.mockResolvedValue(response)
 
-  store.dispatch(login(credentials))
-
-  expect(store.getState().user).toEqual(endState)
+  Promise.allSettled([
+    store.dispatch(login(credentials)),
+    expect(store.getState().user).toEqual(endState),
+  ])
 })

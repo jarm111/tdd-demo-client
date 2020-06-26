@@ -13,10 +13,10 @@ const SignupPage = () => {
   const history = useHistory()
 
   useEffect(() => {
-    if (loading === 'succeeded') {
+    if (loading === 'success') {
       history.push('/')
     }
-  })
+  }, [loading, history])
 
   const handleSubmit = (data: Credentials) => {
     dispatch(signup(data))
