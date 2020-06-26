@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useTypedSelector } from './store'
 import { logout } from './slices/userSlice'
+import { getEvents } from './slices/eventsSlice'
 import EventsPage from './pages/EventsPage'
 import CreateEventPage from './pages/CreateEventPage'
 import EventDetailsPage from './pages/EventDetailsPage'
@@ -15,6 +16,11 @@ import LoginPage from './pages/LoginPage'
 const App = () => {
   const { user } = useTypedSelector((state) => state.user)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getEvents())
+  }, [dispatch])
+
   return (
     <>
       <ToastContainer />
