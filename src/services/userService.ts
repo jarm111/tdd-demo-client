@@ -1,16 +1,7 @@
 import axios from 'axios'
 import Credentials from '../types/Credentials'
 import User from '../types/User'
-
-type ResponseError = {
-  response: {
-    status: number
-    statusText: string
-    data: {
-      error: string
-    }
-  }
-}
+import formatResponseError from '../utils/formatResponseError'
 
 const signupUrl = '/api/signup'
 const loginUrl = '/api/login'
@@ -20,15 +11,6 @@ const setUser = (data: User) => {
   window.localStorage.setItem(localStorageKey, JSON.stringify(data))
 }
 
-const throwError = (e: ResponseError) => {
-  const {
-    status,
-    statusText,
-    data: { error },
-  } = e.response
-  throw new Error(`Status: ${status} ${statusText}, ${error}`)
-}
-
 const userService = {
   signup: async (credentials: Credentials) => {
     try {
@@ -36,7 +18,7 @@ const userService = {
       setUser(data)
       return data
     } catch (e) {
-      throwError(e)
+      throw new Error(formatResponseError(e))
     }
   },
   login: async (credentials: Credentials) => {
@@ -45,7 +27,7 @@ const userService = {
       setUser(data)
       return data
     } catch (e) {
-      throwError(e)
+      throw new Error(formatResponseError(e))
     }
   },
   clearUser: () => {
