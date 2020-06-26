@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { addEvent } from '../slices/eventsSlice'
+import { addEvent, resetAddEventLoading } from '../slices/eventsSlice'
 import EventForm from '../components/EventForm'
 import NewEvent from '../types/NewEvent'
 import { useTypedSelector } from '../store'
 import LoadingIndicator from '../components/LoadingIndicator'
-import { setAddEventLoading } from '../slices/eventsSlice'
 
 const CreateEventPage = () => {
   const { addEventLoading } = useTypedSelector((state) => state.events)
@@ -15,10 +14,10 @@ const CreateEventPage = () => {
 
   useEffect(() => {
     if (addEventLoading === 'success') {
-      dispatch(setAddEventLoading('idle'))
+      dispatch(resetAddEventLoading())
       history.push('/')
     }
-  })
+  }, [dispatch, addEventLoading, history])
 
   const handleSubmit = (data: NewEvent) => {
     dispatch(addEvent(data))

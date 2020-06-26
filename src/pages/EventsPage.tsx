@@ -12,8 +12,10 @@ const EventsPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getEvents())
-  }, [dispatch])
+    if (getEventsLoading === 'idle') {
+      dispatch(getEvents())
+    }
+  }, [dispatch, getEventsLoading])
 
   const handleClick = (eventId: string) => {
     history.push(`/event/${eventId}`)

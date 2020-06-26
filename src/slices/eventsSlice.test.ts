@@ -15,7 +15,7 @@ const setup = () =>
     },
   })
 
-test('returns correct initial state', () => {
+test('correct initial state', () => {
   const store = setup()
   const initialState = {
     events: [],
@@ -26,7 +26,7 @@ test('returns correct initial state', () => {
   expect(store.getState().events).toEqual(initialState)
 })
 
-test('gets events', async () => {
+test('get events', async () => {
   const store = setup()
 
   const response = {
@@ -59,12 +59,28 @@ test('pending get events', () => {
 
   mockedAxios.get.mockResolvedValue(response)
 
-  store.dispatch(getEvents())
+  Promise.allSettled([
+    store.dispatch(getEvents()),
+    expect(store.getState().events).toMatchObject(endState),
+  ])
+})
+
+test('rejected get events', async () => {
+  const store = setup()
+
+  const endState = {
+    events: [],
+    getEventsLoading: 'failure',
+  }
+
+  mockedAxios.get.mockRejectedValue({})
+
+  await store.dispatch(getEvents())
 
   expect(store.getState().events).toMatchObject(endState)
 })
 
-test('adds new event', async () => {
+test('add new event', async () => {
   const store = setup()
   const eventWithId = {
     ...newEvent,
@@ -87,7 +103,7 @@ test('adds new event', async () => {
   expect(store.getState().events).toMatchObject(endState)
 })
 
-test('pending add event', async () => {
+test('pending add event', () => {
   const store = setup()
 
   const endState = {
@@ -97,7 +113,23 @@ test('pending add event', async () => {
 
   mockedAxios.post.mockResolvedValue({})
 
-  store.dispatch(addEvent(newEvent))
+  Promise.allSettled([
+    store.dispatch(addEvent(newEvent)),
+    expect(store.getState().events).toMatchObject(endState),
+  ])
+})
+
+test('failed add event', async () => {
+  const store = setup()
+
+  const endState = {
+    events: [],
+    addEventLoading: 'failure',
+  }
+
+  mockedAxios.post.mockRejectedValue({})
+
+  await store.dispatch(addEvent(newEvent))
 
   expect(store.getState().events).toMatchObject(endState)
 })
