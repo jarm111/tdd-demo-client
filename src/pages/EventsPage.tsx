@@ -1,8 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useTypedSelector } from '../store'
-import EventList from '../components/EventList'
-import LoadingIndicator from '../components/LoadingIndicator'
+import EventList from '../components/EventList/EventList'
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator'
 
 const EventsPage = () => {
   const history = useHistory()

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import EventForm from './EventForm'
-import events from '../mocks/eventsMockData'
+import events from '../../mocks/eventsMockData'
 
 const setup = () => {
   const onSubmit = jest.fn()

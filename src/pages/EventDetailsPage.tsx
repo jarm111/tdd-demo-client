@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useTypedSelector } from '../store'
-import EventDetails from '../components/EventDetails'
+import EventDetails from '../components/EventDetails/EventDetails'
 
 const EventDetailsPage = () => {
   const { id } = useParams()

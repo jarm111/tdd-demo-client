@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import EventDetails from './EventDetails'
-import events from '../mocks/eventsMockData'
+import events from '../../mocks/eventsMockData'
 
 test('displays details of event', () => {
   const [event] = events

@@ -1,6 +1,6 @@
 import React from 'react'
-import EventItem from './EventItem'
-import Event from '../types/Event'
+import EventItem from '../EventItem/EventItem'
+import Event from '../../types/Event'
 
 type Props = {
   events: Event[]

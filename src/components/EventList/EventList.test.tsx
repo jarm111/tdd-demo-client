@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import EventList from './EventList'
-import events from '../mocks/eventsMockData'
+import events from '../../mocks/eventsMockData'
 
 test('displays list of events', () => {
   const handleClick = jest.fn()

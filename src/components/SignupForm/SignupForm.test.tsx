@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import SignupForm from './SignupForm'
-import { credentials } from '../mocks/userMockData'
+import { credentials } from '../../mocks/userMockData'
 
 const setup = () => {
   const onSubmit = jest.fn()

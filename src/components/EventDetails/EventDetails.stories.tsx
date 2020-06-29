@@ -1,7 +1,7 @@
 import React from 'react'
 import { withKnobs, object } from '@storybook/addon-knobs'
 import EventDetails from './EventDetails'
-import events from '../mocks/eventsMockData'
+import events from '../../mocks/eventsMockData'
 
 const [event] = events
 

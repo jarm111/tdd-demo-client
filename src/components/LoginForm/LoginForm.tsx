@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import Credentials from '../types/Credentials'
+import Credentials from '../../types/Credentials'
 
 type Props = {
   onSubmit: (data: Credentials) => void

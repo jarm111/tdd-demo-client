@@ -9,7 +9,7 @@ import { getEvents } from './slices/eventsSlice'
 import EventsPage from './pages/EventsPage'
 import CreateEventPage from './pages/CreateEventPage'
 import EventDetailsPage from './pages/EventDetailsPage'
-import Navigation from './components/Navigation'
+import Navigation from './components/Navigation/Navigation'
 import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage'
 

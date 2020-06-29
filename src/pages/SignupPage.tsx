@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { signup } from '../slices/userSlice'
 import { useTypedSelector } from '../store'
-import SignupForm from '../components/SignupForm'
-import LoadingIndicator from '../components/LoadingIndicator'
+import SignupForm from '../components/SignupForm/SignupForm'
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator'
 import Credentials from '../types/Credentials'
 
 const SignupPage = () => {

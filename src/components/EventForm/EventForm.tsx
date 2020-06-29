@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { ALL_CATEGORIES } from '../types/Category'
-import NewEvent from '../types/NewEvent'
+import { ALL_CATEGORIES } from '../../types/Category'
+import NewEvent from '../../types/NewEvent'
 
 const schema = yup.object().shape({
   title: yup.string().required().min(3).max(100),
