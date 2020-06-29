@@ -8,6 +8,7 @@ const eventsMockData: Event[] = [
     date: '2020-04-24',
     description: 'Welcome to my event one.',
     category: 'music',
+    user: 'id1',
   },
   {
     id: '2',
@@ -15,6 +16,7 @@ const eventsMockData: Event[] = [
     date: '2020-04-25',
     description: 'Welcome to my event two.',
     category: 'lectures',
+    user: 'id1',
   },
   {
     id: '3',
@@ -22,6 +24,7 @@ const eventsMockData: Event[] = [
     date: '2020-04-26',
     description: 'Welcome to my event three.',
     category: 'sports',
+    user: 'id2',
   },
 ]
 
