@@ -10,6 +10,7 @@ type State = {
   events: Event[]
   getEventsLoading: Loading
   addEventLoading: Loading
+  editEventLoading: Loading
 }
 
 export const getEvents = createAsyncThunk<
@@ -42,10 +43,28 @@ export const addEvent = createAsyncThunk<
   }
 })
 
+export const editEvent = createAsyncThunk<
+  Event,
+  Event,
+  {
+    rejectValue: Error
+    state: RootState
+  }
+>('events/edit', async (event, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().user.user?.token || ''
+    const data = await eventService.modifyEvent(event, token)
+    return data
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message)
+  }
+})
+
 const initialState: State = {
   events: [],
   getEventsLoading: 'idle',
   addEventLoading: 'idle',
+  editEventLoading: 'idle',
 }
 
 const eventsSlice = createSlice({
@@ -79,6 +98,21 @@ const eventsSlice = createSlice({
     })
     builder.addCase(addEvent.rejected, (state, { payload }) => {
       state.addEventLoading = 'failure'
+      toast(payload, { type: 'error' })
+    })
+
+    builder.addCase(editEvent.pending, (state) => {
+      state.editEventLoading = 'pending'
+    })
+    builder.addCase(editEvent.fulfilled, (state, { payload }) => {
+      state.editEventLoading = 'success'
+      state.events = state.events.map((event) =>
+        event.id === payload.id ? payload : event
+      )
+      toast(`Created new event: ${payload.title}`)
+    })
+    builder.addCase(editEvent.rejected, (state, { payload }) => {
+      state.editEventLoading = 'failure'
       toast(payload, { type: 'error' })
     })
   },

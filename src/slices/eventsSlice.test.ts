@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import eventsReducer, { getEvents, addEvent } from './eventsSlice'
+import eventsReducer, { getEvents, addEvent, editEvent } from './eventsSlice'
 import events, { newEvent } from '../mocks/eventsMockData'
 import userReducer from './userSlice'
 
@@ -15,12 +15,21 @@ const setup = () =>
     },
   })
 
+const initEvents = async (store: ReturnType<typeof setup>) => {
+  mockedAxios.get.mockResolvedValue({
+    data: events,
+  })
+
+  await store.dispatch(getEvents())
+}
+
 test('correct initial state', () => {
   const store = setup()
   const initialState = {
     events: [],
     getEventsLoading: 'idle',
     addEventLoading: 'idle',
+    editEventLoading: 'idle',
   }
 
   expect(store.getState().events).toEqual(initialState)
@@ -132,4 +141,53 @@ test('failed add event', async () => {
   await store.dispatch(addEvent(newEvent))
 
   expect(store.getState().events).toMatchObject(endState)
+})
+
+test('edit event', async () => {
+  const store = setup()
+  await initEvents(store)
+
+  const [eventToModify] = store.getState().events.events
+  const modifiedEvent = { ...eventToModify, title: 'My edited title' }
+
+  mockedAxios.put.mockResolvedValue({
+    data: modifiedEvent,
+  })
+
+  await store.dispatch(editEvent(modifiedEvent))
+
+  expect(store.getState().events.events).not.toContain(eventToModify)
+  expect(store.getState().events.events).toContain(modifiedEvent)
+  expect(store.getState().events.editEventLoading).toEqual('success')
+})
+
+test('pending edit event', async () => {
+  const store = setup()
+  await initEvents(store)
+
+  const [eventToModify] = store.getState().events.events
+  const modifiedEvent = { ...eventToModify, title: 'My edited title' }
+
+  mockedAxios.put.mockResolvedValue({})
+
+  Promise.allSettled([
+    store.dispatch(editEvent(modifiedEvent)),
+    expect(store.getState().events.editEventLoading).toEqual('pending'),
+  ])
+})
+
+test('failed edit event', async () => {
+  const store = setup()
+  await initEvents(store)
+
+  const eventsAtStart = store.getState().events.events
+  const [eventToModify] = eventsAtStart
+  const modifiedEvent = { ...eventToModify, title: 'Fail' }
+
+  mockedAxios.put.mockRejectedValue({})
+
+  await store.dispatch(editEvent(modifiedEvent))
+
+  expect(store.getState().events.events).toEqual(eventsAtStart)
+  expect(store.getState().events.editEventLoading).toEqual('failure')
 })

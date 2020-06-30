@@ -1,5 +1,6 @@
 import axios from 'axios'
 import NewEvent from '../types/NewEvent'
+import Event from '../types/Event'
 import formatResponseError from '../utils/formatResponseError'
 
 const eventsUrl = '/api/events'
@@ -20,6 +21,18 @@ const eventService = {
       }
 
       const res = await axios.post(eventsUrl, event, config)
+      return res.data
+    } catch (e) {
+      throw new Error(formatResponseError(e))
+    }
+  },
+  modifyEvent: async (event: Event, token: string) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+
+      const res = await axios.put(`${eventsUrl}/${event.id}`, event, config)
       return res.data
     } catch (e) {
       throw new Error(formatResponseError(e))
