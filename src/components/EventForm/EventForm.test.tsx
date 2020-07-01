@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import EventForm from './EventForm'
-import events from '../../mocks/eventsMockData'
+import { newEvent } from '../../mocks/eventsMockData'
 
 const setup = () => {
   const onSubmit = jest.fn()
@@ -13,7 +13,7 @@ const setup = () => {
 }
 
 test('fills fields and calls submit with values', async () => {
-  const [{ title, date, description, category }] = events
+  const { title, date, description, category } = newEvent
 
   const {
     onSubmit,
@@ -37,12 +37,7 @@ test('fills fields and calls submit with values', async () => {
   })
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
-  expect(onSubmit).toHaveBeenCalledWith({
-    title,
-    date,
-    description,
-    category,
-  })
+  expect(onSubmit).toHaveBeenCalledWith(newEvent)
 })
 
 test('handles title validation errors', async () => {
@@ -145,4 +140,18 @@ test('handles category select validation errors', async () => {
   })
 
   getByText('category is a required field', { exact: false })
+})
+
+test('can take existing event as default values', async () => {
+  const onSubmit = jest.fn()
+  const { getByText } = render(
+    <EventForm onSubmit={onSubmit} event={newEvent} />
+  )
+
+  await act(async () => {
+    fireEvent.click(getByText('Submit'))
+  })
+
+  expect(onSubmit).toHaveBeenCalledTimes(1)
+  expect(onSubmit).toHaveBeenCalledWith(newEvent)
 })

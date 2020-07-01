@@ -19,13 +19,16 @@ const schema = yup.object().shape({
 
 type Props = {
   onSubmit: (data: NewEvent) => void
+  event?: NewEvent
 }
 
-const EventForm = ({ onSubmit }: Props) => {
+const EventForm = ({ onSubmit, event }: Props) => {
   const { register, handleSubmit, errors } = useForm({
     mode: 'onBlur',
     validationSchema: schema,
   })
+
+  const getDefaultValue = (key: keyof NewEvent) => (event ? event[key] : '')
 
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data as NewEvent))}>
@@ -34,14 +37,24 @@ const EventForm = ({ onSubmit }: Props) => {
         name="title"
         ref={register}
         aria-label="title-input"
-        defaultValue=""
+        defaultValue={getDefaultValue('title')}
       />
       {errors.title && errors.title.message}
       <label>Date</label>
-      <input name="date" ref={register} aria-label="date-input" />
+      <input
+        name="date"
+        ref={register}
+        aria-label="date-input"
+        defaultValue={getDefaultValue('date')}
+      />
       {errors.date && errors.date.message}
       <label>Category</label>
-      <select name="category" ref={register} aria-label="category-select">
+      <select
+        name="category"
+        ref={register}
+        aria-label="category-select"
+        defaultValue={getDefaultValue('category')}
+      >
         <option value="">--Select--</option>
         {ALL_CATEGORIES.map((category) => (
           <option key={category} value={category}>
@@ -51,7 +64,12 @@ const EventForm = ({ onSubmit }: Props) => {
       </select>
       {errors.category && errors.category.message}
       <label>Description</label>
-      <input name="description" ref={register} aria-label="description-input" />
+      <input
+        name="description"
+        ref={register}
+        aria-label="description-input"
+        defaultValue={getDefaultValue('description')}
+      />
       {errors.description && errors.description.message}
       <input type="submit" value="Submit" />
     </form>
