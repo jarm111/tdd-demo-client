@@ -1,6 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import axios from 'axios'
-import eventsReducer, { getEvents, addEvent, editEvent } from './eventsSlice'
+import eventsReducer, {
+  getEvents,
+  addEvent,
+  editEvent,
+  removeEvent,
+} from './eventsSlice'
 import events, { newEvent } from '../mocks/eventsMockData'
 import userReducer from './userSlice'
 
@@ -30,6 +35,7 @@ test('correct initial state', () => {
     getEventsLoading: 'idle',
     addEventLoading: 'idle',
     editEventLoading: 'idle',
+    removeEventLoading: 'idle',
   }
 
   expect(store.getState().events).toEqual(initialState)
@@ -190,4 +196,52 @@ test('failed edit event', async () => {
 
   expect(store.getState().events.events).toEqual(eventsAtStart)
   expect(store.getState().events.editEventLoading).toEqual('failure')
+})
+
+test('remove event', async () => {
+  const store = setup()
+  await initEvents(store)
+
+  const [eventToDelete] = store.getState().events.events
+
+  mockedAxios.delete.mockResolvedValue({})
+
+  await store.dispatch(removeEvent(eventToDelete))
+
+  const eventsAfterDelete = store.getState().events.events
+
+  expect(eventsAfterDelete).not.toContain(eventToDelete)
+  expect(store.getState().events.removeEventLoading).toEqual('success')
+})
+
+test('pending remove event', async () => {
+  const store = setup()
+  await initEvents(store)
+
+  const [eventToDelete] = store.getState().events.events
+
+  mockedAxios.delete.mockResolvedValue({})
+
+  Promise.allSettled([
+    store.dispatch(removeEvent(eventToDelete)),
+    expect(store.getState().events.removeEventLoading).toEqual('pending'),
+  ])
+})
+
+test('failed remove event', async () => {
+  const store = setup()
+  await initEvents(store)
+
+  const eventsAtStart = store.getState().events.events
+
+  const [eventToDelete] = eventsAtStart
+
+  mockedAxios.delete.mockRejectedValue({})
+
+  await store.dispatch(removeEvent(eventToDelete))
+
+  const eventsAfterDelete = store.getState().events.events
+
+  expect(eventsAfterDelete).toEqual(eventsAtStart)
+  expect(store.getState().events.removeEventLoading).toEqual('failure')
 })

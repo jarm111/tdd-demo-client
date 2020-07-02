@@ -11,6 +11,7 @@ type State = {
   getEventsLoading: Loading
   addEventLoading: Loading
   editEventLoading: Loading
+  removeEventLoading: Loading
 }
 
 export const getEvents = createAsyncThunk<
@@ -60,11 +61,29 @@ export const editEvent = createAsyncThunk<
   }
 })
 
+export const removeEvent = createAsyncThunk<
+  Event,
+  Event,
+  {
+    rejectValue: Error
+    state: RootState
+  }
+>('events/remove', async (event, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().user.user?.token || ''
+    await eventService.deleteEvent(event.id, token)
+    return event
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message)
+  }
+})
+
 const initialState: State = {
   events: [],
   getEventsLoading: 'idle',
   addEventLoading: 'idle',
   editEventLoading: 'idle',
+  removeEventLoading: 'idle',
 }
 
 const eventsSlice = createSlice({
@@ -116,6 +135,19 @@ const eventsSlice = createSlice({
     })
     builder.addCase(editEvent.rejected, (state, { payload }) => {
       state.editEventLoading = 'failure'
+      toast(payload, { type: 'error' })
+    })
+
+    builder.addCase(removeEvent.pending, (state) => {
+      state.removeEventLoading = 'pending'
+    })
+    builder.addCase(removeEvent.fulfilled, (state, { payload }) => {
+      state.removeEventLoading = 'success'
+      state.events = state.events.filter((event) => event.id !== payload.id)
+      toast(`Removed event: ${payload.title}`)
+    })
+    builder.addCase(removeEvent.rejected, (state, { payload }) => {
+      state.removeEventLoading = 'failure'
       toast(payload, { type: 'error' })
     })
   },

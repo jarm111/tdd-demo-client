@@ -38,6 +38,18 @@ const eventService = {
       throw new Error(formatResponseError(e))
     }
   },
+  deleteEvent: async (eventId: string, token: string) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+
+      const res = await axios.delete(`${eventsUrl}/${eventId}`, config)
+      return res.data
+    } catch (e) {
+      throw new Error(formatResponseError(e))
+    }
+  },
 }
 
 export default eventService
