@@ -96,6 +96,9 @@ const eventsSlice = createSlice({
     resetEditEventLoading: (state) => {
       state.editEventLoading = 'idle'
     },
+    resetRemoveEventLoading: (state) => {
+      state.removeEventLoading = 'idle'
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getEvents.pending, (state) => {
@@ -158,4 +161,5 @@ export default eventsSlice.reducer
 export const {
   resetAddEventLoading,
   resetEditEventLoading,
+  resetRemoveEventLoading,
 } = eventsSlice.actions
