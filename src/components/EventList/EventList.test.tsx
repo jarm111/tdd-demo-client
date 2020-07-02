@@ -5,8 +5,14 @@ import events from '../../mocks/eventsMockData'
 
 test('displays list of events', () => {
   const handleClick = jest.fn()
+  const handleEdit = jest.fn()
   const { getAllByText } = render(
-    <EventList onClick={handleClick} events={events} />
+    <EventList
+      onClick={handleClick}
+      events={events}
+      onEdit={handleEdit}
+      user={null}
+    />
   )
 
   const items = getAllByText('My event', { exact: false })

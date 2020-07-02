@@ -21,7 +21,6 @@ it('displays events and opens details on click', () => {
 it('creates new event', () => {
   const [event] = events
   const {title, date, category, description} = event
-  const eventWithId = {...event, id: '4'}
 
   cy.server()
   cy.route({
@@ -32,7 +31,7 @@ it('creates new event', () => {
   cy.route({
     method: 'POST',
     url: '/api/events',
-    response: eventWithId,
+    response: event,
     delay: 100
   })
 
@@ -49,14 +48,7 @@ it('creates new event', () => {
   cy.findByLabelText('category-select')
     .select(category)
   cy.findByLabelText('description-input')
-    .type(description)
-
-  cy.route({
-    method: 'GET',
-    url: '/api/events',
-    response: [eventWithId],
-  })
-  
+    .type(description) 
   cy.findByText('Submit')
     .click()
   cy.findByRole('progressbar')
@@ -103,4 +95,75 @@ it('displays error message on failed create event', () => {
   cy.findByRole('progressbar')
   cy.findByText('validation failed', {exact: false})
   cy.url().should('include', '/create')
+})
+
+it('edits existing event', () => {
+  const [event] = events
+  const newDescription = 'API does not like this description'
+  const editedEvent = {...event, description: newDescription}
+
+  cy.server()
+  cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [event],
+  })
+  cy.route({
+    method: 'PUT',
+    url: `/api/events/${editedEvent.id}`,
+    response: editedEvent,
+    delay: 100
+  })
+
+  cy.window().then(window => {
+    window.localStorage.setItem('Login', JSON.stringify(user))
+  })
+
+  cy.visit('/')
+  cy.findByText('Edit')
+    .click()
+  cy.findByLabelText('description-input')
+    .type(newDescription)
+  cy.findByText('Submit')
+    .click()
+  cy.findByRole('progressbar')
+  cy.findByText('Edited event', {exact: false})
+  cy.findByText(editedEvent.title)
+    .click()
+  cy.findByText(newDescription)
+})
+
+it('displays error message on failed edit event', () => {
+  const [event] = events
+  const newDescription = 'My edited description'
+  const editedEvent = {...event, description: newDescription}
+
+  cy.server()
+  cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [event],
+  })
+  cy.route({
+    method: 'PUT',
+    status: 400,
+    url: `/api/events/${editedEvent.id}`,
+    response: {error: "Status: 400, Description validation failed"},
+    delay: 100
+  })
+
+  cy.window().then(window => {
+    window.localStorage.setItem('Login', JSON.stringify(user))
+  })
+
+  cy.visit('/')
+  cy.findByText('Edit')
+    .click()
+  cy.findByLabelText('description-input')
+    .type(newDescription)
+  cy.findByText('Submit')
+    .click()
+  cy.findByRole('progressbar')
+  cy.findByText('validation failed', {exact: false})
+  cy.url().should('include', '/eventedit')
 })

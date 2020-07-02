@@ -74,6 +74,9 @@ const eventsSlice = createSlice({
     resetAddEventLoading: (state) => {
       state.addEventLoading = 'idle'
     },
+    resetEditEventLoading: (state) => {
+      state.editEventLoading = 'idle'
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getEvents.pending, (state) => {
@@ -109,7 +112,7 @@ const eventsSlice = createSlice({
       state.events = state.events.map((event) =>
         event.id === payload.id ? payload : event
       )
-      toast(`Created new event: ${payload.title}`)
+      toast(`Edited event: ${payload.title}`)
     })
     builder.addCase(editEvent.rejected, (state, { payload }) => {
       state.editEventLoading = 'failure'
@@ -120,4 +123,7 @@ const eventsSlice = createSlice({
 
 export default eventsSlice.reducer
 
-export const { resetAddEventLoading } = eventsSlice.actions
+export const {
+  resetAddEventLoading,
+  resetEditEventLoading,
+} = eventsSlice.actions

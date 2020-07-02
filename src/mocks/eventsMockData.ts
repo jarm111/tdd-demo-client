@@ -1,5 +1,6 @@
 import Event from '../types/Event'
 import NewEvent from '../types/NewEvent'
+import { user } from './userMockData'
 
 const eventsMockData: Event[] = [
   {
@@ -8,7 +9,7 @@ const eventsMockData: Event[] = [
     date: '2020-04-24',
     description: 'Welcome to my event one.',
     category: 'music',
-    user: 'id1',
+    user: user.id,
   },
   {
     id: '2',
