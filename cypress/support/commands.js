@@ -8,4 +8,13 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+/* global Cypress, cy */
+
 import '@testing-library/cypress/add-commands';
+import {user} from '../../src/mocks/userMockData'
+
+Cypress.Commands.add('login', () => {
+  cy.window().then(window => {
+    window.localStorage.setItem('Login', JSON.stringify(user))
+  })
+})

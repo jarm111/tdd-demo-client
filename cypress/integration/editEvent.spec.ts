@@ -1,5 +1,4 @@
 import events from '../../src/mocks/eventsMockData'
-import {user} from '../../src/mocks/userMockData'
 
 it('edits existing event', () => {
   const [event] = events
@@ -19,9 +18,7 @@ it('edits existing event', () => {
     delay: 100
   })
 
-  cy.window().then(window => {
-    window.localStorage.setItem('Login', JSON.stringify(user))
-  })
+  cy.login()
 
   cy.visit('/')
   cy.findByText('Edit')
@@ -56,9 +53,7 @@ it('displays error message on failed edit event', () => {
     delay: 100
   })
 
-  cy.window().then(window => {
-    window.localStorage.setItem('Login', JSON.stringify(user))
-  })
+  cy.login()
 
   cy.visit('/')
   cy.findByText('Edit')
@@ -104,9 +99,7 @@ it('removes existing event', () => {
     delay: 100
   })
 
-  cy.window().then(window => {
-    window.localStorage.setItem('Login', JSON.stringify(user))
-  })
+  cy.login()
 
   cy.visit('/')
   cy.findByText('Edit')
@@ -134,9 +127,7 @@ it('displays error message on failed remove event', () => {
     delay: 100
   })
 
-  cy.window().then(window => {
-    window.localStorage.setItem('Login', JSON.stringify(user))
-  })
+  cy.login()
 
   cy.visit('/')
   cy.findByText('Edit')

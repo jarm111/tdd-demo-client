@@ -1,5 +1,4 @@
 import events from '../../src/mocks/eventsMockData'
-import {user} from '../../src/mocks/userMockData'
 
 it('creates new event', () => {
   const [event] = events
@@ -18,9 +17,7 @@ it('creates new event', () => {
     delay: 100
   })
 
-  cy.window().then(window => {
-    window.localStorage.setItem('Login', JSON.stringify(user))
-  })
+  cy.login()
 
   cy.visit('/')
   cy.findByText('Create').click()
@@ -59,9 +56,7 @@ it('displays error message on failed create event', () => {
     delay: 100
   })
 
-  cy.window().then(window => {
-    window.localStorage.setItem('Login', JSON.stringify(user))
-  })
+  cy.login()
 
   cy.visit('/')
   cy.findByText('Create').click()
