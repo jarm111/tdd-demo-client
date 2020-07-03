@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useTypedSelector } from './store'
@@ -16,11 +16,23 @@ import EditEventPage from './pages/EditEventPage'
 
 const App = () => {
   const { user } = useTypedSelector((state) => state.user)
+  const { events } = useTypedSelector((state) => state.events)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getEvents())
   }, [dispatch])
+
+  const RedirectHome = () => <Redirect to={'/'} />
+
+  const renderEditEvent = ({ match }: RouteComponentProps<{ id: string }>) => {
+    const event = events.find((event) => event.id === match.params.id)
+    return user && event && user.id === event.user ? (
+      <EditEventPage />
+    ) : (
+      <RedirectHome />
+    )
+  }
 
   return (
     <>
@@ -34,14 +46,12 @@ const App = () => {
           <EventsPage />
         </Route>
         <Route path={'/create'}>
-          <CreateEventPage />
+          {user ? <CreateEventPage /> : <RedirectHome />}
         </Route>
         <Route path={'/event/:id'}>
           <EventDetailsPage />
         </Route>
-        <Route path={'/eventedit/:id'}>
-          <EditEventPage />
-        </Route>
+        <Route path={'/eventedit/:id'} render={renderEditEvent} />
         <Route path={'/signup'}>
           <SignupPage />
         </Route>

@@ -97,6 +97,19 @@ it('displays error message on failed create event', () => {
   cy.url().should('include', '/create')
 })
 
+it('redirects if navigating to create and not logged in', () => {
+  cy.server()
+  cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [],
+  })
+
+  cy.visit('#/create')
+  cy.url().should('not.include', '/create')
+  cy.findByText('Create').should('not.exist')
+})
+
 it('edits existing event', () => {
   const [event] = events
   const newDescription = 'My edited description'
@@ -166,6 +179,21 @@ it('displays error message on failed edit event', () => {
   cy.findByRole('progressbar')
   cy.findByText('validation failed', {exact: false})
   cy.url().should('include', '/eventedit')
+})
+
+it('redirects on unauthorized edit event', () => {
+  const [event] = events
+
+  cy.server()
+  cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [event],
+  })
+
+  cy.visit(`#/eventedit/${event.id}`)
+  cy.url().should('not.include', '/eventedit')
+  cy.findByText('Edit event').should('not.exist')
 })
 
 it('removes existing event', () => {
