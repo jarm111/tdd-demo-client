@@ -62,3 +62,24 @@ test('sorts events asc/desc by date', async () => {
 
   expect(itemsDesc[0].innerHTML).toEqual(events[events.length - 1].title)
 })
+
+test('filters event by title', async () => {
+  const {
+    result: { getByLabelText, getAllByText },
+  } = setup()
+
+  const [, , eventThree] = events
+
+  await act(async () => {
+    fireEvent.input(getByLabelText('filter-title-input'), {
+      target: { value: eventThree.title.toLowerCase() },
+    })
+  })
+
+  const titles = getAllByText('My event', { exact: false }).map(
+    (element) => element.innerHTML
+  )
+
+  expect(titles.length).toEqual(1)
+  expect(titles).toContain(eventThree.title)
+})

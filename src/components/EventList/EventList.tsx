@@ -14,8 +14,14 @@ type Order = 'asc' | 'desc'
 
 const EventList = ({ events, onClick, onEdit, user }: Props) => {
   const [order, setOrder] = useState<Order>('asc')
+  const [titleFilter, setTitleFilter] = useState('')
 
-  const sortedEvents = events
+  const filteredEvents = titleFilter
+    ? events.filter((event) =>
+        event.title.toLowerCase().includes(titleFilter.toLowerCase())
+      )
+    : events
+  const sortedEvents = filteredEvents
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date))
   const orderedEvents =
@@ -33,6 +39,12 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
         <option value={'asc'}>Ascending</option>
         <option value={'desc'}>Descending</option>
       </select>
+      <label>Search by title</label>
+      <input
+        type="text"
+        aria-label="filter-title-input"
+        onChange={(e) => setTitleFilter(e.target.value)}
+      />
       <div>
         {orderedEvents.map((event) => (
           <EventItem
