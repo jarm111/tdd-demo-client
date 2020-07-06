@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import EventItem from '../EventItem/EventItem'
 import Event from '../../types/Event'
 import User from '../../types/User'
+import Category, { ALL_CATEGORIES } from '../../types/Category'
 
 type Props = {
   events: Event[]
@@ -15,13 +16,17 @@ type Order = 'asc' | 'desc'
 const EventList = ({ events, onClick, onEdit, user }: Props) => {
   const [order, setOrder] = useState<Order>('asc')
   const [titleFilter, setTitleFilter] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState<Category | ''>('')
 
-  const filteredEvents = titleFilter
+  const titleFilteredEvents = titleFilter
     ? events.filter((event) =>
         event.title.toLowerCase().includes(titleFilter.toLowerCase())
       )
     : events
-  const sortedEvents = filteredEvents
+  const categoryFilteredEvents = categoryFilter
+    ? titleFilteredEvents.filter((event) => event.category === categoryFilter)
+    : titleFilteredEvents
+  const sortedEvents = categoryFilteredEvents
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date))
   const orderedEvents =
@@ -39,12 +44,28 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
         <option value={'asc'}>Ascending</option>
         <option value={'desc'}>Descending</option>
       </select>
+
       <label>Search by title</label>
       <input
         type="text"
         aria-label="filter-title-input"
         onChange={(e) => setTitleFilter(e.target.value)}
       />
+
+      <label>Filter by category</label>
+      <select
+        aria-label="filter-category-select"
+        defaultValue=""
+        onChange={(e) => setCategoryFilter(e.target.value as Category)}
+      >
+        <option value="">--ALL--</option>
+        {ALL_CATEGORIES.map((category) => (
+          <option key={category} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
+
       <div>
         {orderedEvents.map((event) => (
           <EventItem

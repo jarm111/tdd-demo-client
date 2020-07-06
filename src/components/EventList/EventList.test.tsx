@@ -63,7 +63,7 @@ test('sorts events asc/desc by date', async () => {
   expect(itemsDesc[0].innerHTML).toEqual(events[events.length - 1].title)
 })
 
-test('filters event by title', async () => {
+test('filters events by title', async () => {
   const {
     result: { getByLabelText, getAllByText },
   } = setup()
@@ -73,6 +73,27 @@ test('filters event by title', async () => {
   await act(async () => {
     fireEvent.input(getByLabelText('filter-title-input'), {
       target: { value: eventThree.title.toLowerCase() },
+    })
+  })
+
+  const titles = getAllByText('My event', { exact: false }).map(
+    (element) => element.innerHTML
+  )
+
+  expect(titles.length).toEqual(1)
+  expect(titles).toContain(eventThree.title)
+})
+
+test('filters events by category', async () => {
+  const {
+    result: { getByLabelText, getAllByText },
+  } = setup()
+
+  const [, , eventThree] = events
+
+  await act(async () => {
+    fireEvent.change(getByLabelText('filter-category-select'), {
+      target: { value: eventThree.category },
     })
   })
 
