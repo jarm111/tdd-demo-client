@@ -2,8 +2,10 @@ import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
 import EventList from './EventList'
 import events from '../../mocks/eventsMockData'
+import { user } from '../../mocks/userMockData'
+import User from '../../types/User'
 
-const setup = () => {
+const setup = (user: User | null = null) => {
   const handleClick = jest.fn()
   const handleEdit = jest.fn()
   const result = render(
@@ -11,7 +13,7 @@ const setup = () => {
       onClick={handleClick}
       events={events}
       onEdit={handleEdit}
-      user={null}
+      user={user}
     />
   )
   return {
@@ -103,4 +105,23 @@ test('filters events by category', async () => {
 
   expect(titles.length).toEqual(1)
   expect(titles).toContain(eventThree.title)
+})
+
+test('filters events by owner', async () => {
+  const {
+    result: { getByLabelText, getAllByText },
+  } = setup(user)
+
+  const [ownEvent] = events
+
+  await act(async () => {
+    fireEvent.click(getByLabelText('filter-own-checkbox'))
+  })
+
+  const titles = getAllByText('My event', { exact: false }).map(
+    (element) => element.innerHTML
+  )
+
+  expect(titles.length).toEqual(1)
+  expect(titles).toContain(ownEvent.title)
 })

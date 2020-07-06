@@ -17,12 +17,17 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
   const [order, setOrder] = useState<Order>('asc')
   const [titleFilter, setTitleFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<Category | ''>('')
+  const [ownEventsFilter, setOwnEventsFilter] = useState(false)
 
+  const ownFilteredEvents =
+    user && ownEventsFilter
+      ? events.filter((event) => event.user === user.id)
+      : events
   const titleFilteredEvents = titleFilter
-    ? events.filter((event) =>
+    ? ownFilteredEvents.filter((event) =>
         event.title.toLowerCase().includes(titleFilter.toLowerCase())
       )
-    : events
+    : ownFilteredEvents
   const categoryFilteredEvents = categoryFilter
     ? titleFilteredEvents.filter((event) => event.category === categoryFilter)
     : titleFilteredEvents
@@ -65,6 +70,17 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
           </option>
         ))}
       </select>
+
+      {user ? (
+        <>
+          <label>Show own events only</label>
+          <input
+            type="checkbox"
+            aria-label="filter-own-checkbox"
+            onChange={(e) => setOwnEventsFilter(e.target.checked)}
+          />
+        </>
+      ) : null}
 
       <div>
         {orderedEvents.map((event) => (
