@@ -1,7 +1,12 @@
 {
   "name": "tdd-demo-client",
+  "description": "Events Board demo app developed test-drivenly for my thesis",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Jarmo Syvälahti",
+    "url": "https://github.com/jarm111"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.3.5",
     "@testing-library/jest-dom": "^4.2.4",
