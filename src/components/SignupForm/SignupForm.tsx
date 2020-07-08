@@ -38,32 +38,47 @@ const SignupForm = ({ onSubmit }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(filterSubmitValue)}>
-      <label>Email</label>
-      <input
-        name="email"
-        ref={register}
-        aria-label="email-input"
-        defaultValue=""
-      />
-      {errors.email && errors.email.message}
-      <label>Password</label>
-      <input
-        type="password"
-        name="password"
-        ref={register}
-        aria-label="password-input"
-        defaultValue=""
-      />
-      {errors.password && errors.password.message}
-      <label>Retype password</label>
-      <input
-        type="password"
-        name="retypePassword"
-        ref={register}
-        aria-label="retype-password-input"
-        defaultValue=""
-      />
-      {errors.retypePassword && errors.retypePassword.message}
+      <div className="form-group">
+        <label htmlFor="email-input">Email</label>
+        <input
+          name="email"
+          ref={register}
+          id="email-input"
+          aria-label="email-input"
+          defaultValue=""
+        />
+        <div className="text-danger">
+          {errors.email && errors.email.message}
+        </div>
+      </div>
+      <div className="form-group">
+        <label htmlFor="password-input">Password</label>
+        <input
+          type="password"
+          name="password"
+          ref={register}
+          id="password-input"
+          aria-label="password-input"
+          defaultValue=""
+        />
+        <div className="text-danger">
+          {errors.password && errors.password.message}
+        </div>
+      </div>
+      <div className="form-group">
+        <label htmlFor="retype-password-input">Retype password</label>
+        <input
+          type="password"
+          name="retypePassword"
+          ref={register}
+          id="retype-password-input"
+          aria-label="retype-password-input"
+          defaultValue=""
+        />
+        <div className="text-danger">
+          {errors.retypePassword && errors.retypePassword.message}
+        </div>
+      </div>
       <input type="submit" value="Submit" />
     </form>
   )
