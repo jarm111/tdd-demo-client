@@ -17,14 +17,20 @@ const EventItem = ({ event, onClick, onEdit, user }: Props) => {
     onEdit(event.id)
   }
 
-  const editButton = <button onClick={handleEdit}>Edit</button>
+  const editButton = (
+    <button className="btn-small" onClick={handleEdit}>
+      Edit
+    </button>
+  )
 
   return (
-    <div onClick={() => onClick(id)}>
-      <div>{title}</div>
-      <div>{date}</div>
-      <div>{category}</div>
-      {user && user.id === event.user ? editButton : null}
+    <div className="card" onClick={() => onClick(id)}>
+      <div className="card-body">
+        <h4 className="card-title">{title}</h4>
+        <h5 className="card-subtitle">{date}</h5>
+        <p className="card-text">{category}</p>
+        {user && user.id === event.user ? editButton : null}
+      </div>
     </div>
   )
 }
