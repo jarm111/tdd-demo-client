@@ -15,7 +15,11 @@ test('navigates to links', () => {
     </Router>
   )
 
-  fireEvent.click(getByText('events', { exact: false }))
+  fireEvent.click(getByText('Events Board'))
+
+  expect(history.location.pathname).toBe('/')
+
+  fireEvent.click(getByText('Events'))
 
   expect(history.location.pathname).toBe('/')
 

@@ -8,7 +8,7 @@ it('displays events and opens details on click', () => {
     method: 'GET',
     url: '/api/events',
     response: events,
-    delay: 100
+    delay: 1000
   })
   cy.visit('/')
   cy.findByRole('progressbar')

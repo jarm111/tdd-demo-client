@@ -20,7 +20,7 @@ it('creates new event', () => {
   cy.login()
 
   cy.visit('/')
-  cy.findByText('Create').click()
+  cy.findByText('Create').click({force: true})
   cy.findByLabelText('title-input')
     .type(title)
   cy.findByLabelText('date-input')
@@ -59,7 +59,7 @@ it('displays error message on failed create event', () => {
   cy.login()
 
   cy.visit('/')
-  cy.findByText('Create').click()
+  cy.findByText('Create').click({force: true})
   cy.findByLabelText('title-input')
     .type(title)
   cy.findByLabelText('date-input')

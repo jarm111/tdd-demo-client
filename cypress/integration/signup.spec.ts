@@ -12,7 +12,7 @@ it('successfully creates new user account and logs out', () => {
   })
 
   cy.visit('/')
-  cy.findByText('Login').click()
+  cy.findByText('Login').click({force: true})
   cy.findByText('Sign up').click()
   cy.findByLabelText('email-input')
     .type(email)
@@ -25,7 +25,7 @@ it('successfully creates new user account and logs out', () => {
   cy.findByRole('progressbar')
   cy.findByText('Successfully created', {exact: false})
   cy.findByText('Log out')
-    .click()
+    .click({force: true})
   cy.findByText('Logged out', {exact: false})
   cy.findByText('Login')
 })
@@ -44,7 +44,7 @@ it('displays error message on failed sign up', () => {
   })
 
   cy.visit('/')
-  cy.findByText('Login').click()
+  cy.findByText('Login').click({force: true})
   cy.findByText('Sign up').click()
   cy.findByLabelText('email-input')
     .type(email)

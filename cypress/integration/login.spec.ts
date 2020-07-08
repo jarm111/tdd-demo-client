@@ -12,7 +12,7 @@ it('successfully logs in and logs out', () => {
   })
 
   cy.visit('/')
-  cy.findByText('Login').click()
+  cy.findByText('Login').click({force: true})
   cy.findByLabelText('email-input')
     .type(email)
   cy.findByLabelText('password-input')
@@ -22,7 +22,7 @@ it('successfully logs in and logs out', () => {
   cy.findByRole('progressbar')
   cy.findByText('Logged in', {exact: false})
   cy.findByText('Log out')
-    .click()
+    .click({force: true})
   cy.findByText('Logged out', {exact: false})
   cy.findByText('Login')
 })
@@ -41,7 +41,7 @@ it('displays error message on failed login', () => {
   })
 
   cy.visit('/')
-  cy.findByText('Login').click()
+  cy.findByText('Login').click({force: true})
   cy.findByLabelText('email-input')
     .type(email)
   cy.findByLabelText('password-input')
