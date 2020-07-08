@@ -39,49 +39,67 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
 
   return (
     <div>
-      <label>Sort by date</label>
-      <select
-        name="order"
-        aria-label="order-select"
-        defaultValue={'asc'}
-        onChange={(e) => setOrder(e.target.value as Order)}
-      >
-        <option value={'asc'}>Ascending</option>
-        <option value={'desc'}>Descending</option>
-      </select>
-
-      <label>Search by title</label>
-      <input
-        type="text"
-        aria-label="filter-title-input"
-        onChange={(e) => setTitleFilter(e.target.value)}
-      />
-
-      <label>Filter by category</label>
-      <select
-        aria-label="filter-category-select"
-        defaultValue=""
-        onChange={(e) => setCategoryFilter(e.target.value as Category)}
-      >
-        <option value="">--ALL--</option>
-        {ALL_CATEGORIES.map((category) => (
-          <option key={category} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
-
-      {user ? (
-        <>
-          <label>Show own events only</label>
-          <input
-            type="checkbox"
-            aria-label="filter-own-checkbox"
-            onChange={(e) => setOwnEventsFilter(e.target.checked)}
-          />
-        </>
-      ) : null}
-
+      <div className="row">
+        <div className="col lg-2">
+          <div className="form-group">
+            <label htmlFor="order-select">Sort by date</label>
+            <select
+              name="order"
+              id="order-select"
+              aria-label="order-select"
+              defaultValue={'asc'}
+              onChange={(e) => setOrder(e.target.value as Order)}
+            >
+              <option value={'asc'}>Ascending</option>
+              <option value={'desc'}>Descending</option>
+            </select>
+          </div>
+        </div>
+        <div className="col lg-2">
+          <div className="form-group">
+            <label htmlFor="filter-title-input">Search by title</label>
+            <input
+              type="text"
+              id="filter-title-input"
+              aria-label="filter-title-input"
+              onChange={(e) => setTitleFilter(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="col lg-2">
+          <div className="form-group">
+            <label htmlFor="filter-category-select">Filter by category</label>
+            <select
+              id="filter-category-select"
+              aria-label="filter-category-select"
+              defaultValue=""
+              onChange={(e) => setCategoryFilter(e.target.value as Category)}
+            >
+              <option value="">--ALL--</option>
+              {ALL_CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="col lg-6">
+          {user ? (
+            <div className="form-group">
+              <label className="paper-check" htmlFor="filter-own-checkbox">
+                <input
+                  id="filter-own-checkbox"
+                  type="checkbox"
+                  aria-label="filter-own-checkbox"
+                  onChange={(e) => setOwnEventsFilter(e.target.checked)}
+                />
+                <span>Show own events only</span>
+              </label>
+            </div>
+          ) : null}
+        </div>
+      </div>
       <div>
         {orderedEvents.map((event) => (
           <EventItem
