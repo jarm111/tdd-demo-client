@@ -23,6 +23,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.1.7",
     "mutationobserver-shim": "^0.3.5",
+    "papercss": "^1.6.1",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
