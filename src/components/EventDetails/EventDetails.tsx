@@ -10,10 +10,10 @@ const EventDetails = ({
 }: Props) => {
   return (
     <div>
-      <h2>{title}</h2>
-      <div>{date}</div>
-      <div>{category}</div>
-      <div>{description}</div>
+      <h3>{title}</h3>
+      <p>Date: {date}</p>
+      <p>Category: {category}</p>
+      <p>Description: {description}</p>
     </div>
   )
 }
