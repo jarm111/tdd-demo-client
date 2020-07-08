@@ -11,7 +11,7 @@ const LoadingIndicator = ({ loading }: Props) => {
   }
 
   return (
-    <div role="progressbar">
+    <div role="progressbar" className="margin-small">
       <FadeLoader />
     </div>
   )
