@@ -26,7 +26,9 @@ const LoginPage = () => {
     <div>
       <h2>Log in</h2>
       <LoginForm onSubmit={handleSubmit} />
-      <Link to="/signup">Sign up</Link>
+      <div className="margin-top-large">
+        <Link to="/signup">Sign Up instead...</Link>
+      </div>
       <LoadingIndicator loading={loading === 'pending'} />
     </div>
   )
