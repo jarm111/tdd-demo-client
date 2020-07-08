@@ -14,5 +14,5 @@ it('displays events and opens details on click', () => {
   cy.findByRole('progressbar')
   cy.findByText(title)
     .click()
-  cy.findByText(description)
+  cy.findByText(description, {exact: false})
 })

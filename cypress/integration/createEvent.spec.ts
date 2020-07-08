@@ -35,7 +35,7 @@ it('creates new event', () => {
   cy.findByText('Created new event', {exact: false})
   cy.findByText(title)
     .click()
-  cy.findByText(description)
+  cy.findByText(description, {exact: false})
 })
 
 it('displays error message on failed create event', () => {

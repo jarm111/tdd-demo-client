@@ -31,7 +31,7 @@ it('edits existing event', () => {
   cy.findByText('Edited event', {exact: false})
   cy.findByText(editedEvent.title)
     .click()
-  cy.findByText(newDescription)
+  cy.findByText(newDescription, {exact: false})
 })
 
 it('displays error message on failed edit event', () => {
