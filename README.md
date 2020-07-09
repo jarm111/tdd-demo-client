@@ -16,6 +16,7 @@ UI components and Redux reducers are unit tested with Jest. App and stuff under 
 - [Create React App](https://github.com/facebook/create-react-app)
 - [React Router](https://reactrouter.com/)
 - [Redux Toolkit](https://redux-toolkit.js.org/)
+- [PaperCSS](https://www.getpapercss.com/)
 - [Storybook](https://storybook.js.org/)
 - [Jest](https://jestjs.io/)
 - [Testing Library](https://testing-library.com/)
