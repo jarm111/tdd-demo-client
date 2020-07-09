@@ -23,13 +23,13 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
+    <div className="col">
       <h2>Log in</h2>
       <LoginForm onSubmit={handleSubmit} />
+      <LoadingIndicator loading={loading === 'pending'} />
       <div className="margin-top-large">
         <Link to="/signup">Sign Up instead...</Link>
       </div>
-      <LoadingIndicator loading={loading === 'pending'} />
     </div>
   )
 }

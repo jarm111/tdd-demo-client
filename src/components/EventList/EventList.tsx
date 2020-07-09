@@ -46,7 +46,7 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
   return (
     <div>
       <div className="row">
-        <div className="col lg-2">
+        <div className="col ">
           <div className="form-group">
             <label htmlFor="order-select">Sort by date</label>
             <select
@@ -61,7 +61,7 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
             </select>
           </div>
         </div>
-        <div className="col lg-2">
+        <div className="col ">
           <div className="form-group">
             <label htmlFor="filter-title-input">Search by title</label>
             <input
@@ -72,7 +72,7 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
             />
           </div>
         </div>
-        <div className="col lg-2">
+        <div className="col ">
           <div className="form-group">
             <label htmlFor="filter-category-select">Filter by category</label>
             <select
@@ -90,7 +90,7 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
             </select>
           </div>
         </div>
-        <div className="col lg-6">
+        <div className="col">
           {user ? (
             <div className="form-group">
               <label className="paper-check" htmlFor="filter-own-checkbox">

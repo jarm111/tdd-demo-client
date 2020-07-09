@@ -41,24 +41,26 @@ const App = () => {
         isLoggedIn={Boolean(user)}
         onLogout={() => dispatch(logout())}
       />
-      <Switch>
-        <Route exact path={'/'}>
-          <EventsPage />
-        </Route>
-        <Route path={'/create'}>
-          {user ? <CreateEventPage /> : <RedirectHome />}
-        </Route>
-        <Route path={'/event/:id'}>
-          <EventDetailsPage />
-        </Route>
-        <Route path={'/eventedit/:id'} render={renderEditEvent} />
-        <Route path={'/signup'}>
-          <SignupPage />
-        </Route>
-        <Route path={'/login'}>
-          <LoginPage />
-        </Route>
-      </Switch>
+      <div className="row flex-center">
+        <Switch>
+          <Route exact path={'/'}>
+            <EventsPage />
+          </Route>
+          <Route path={'/create'}>
+            {user ? <CreateEventPage /> : <RedirectHome />}
+          </Route>
+          <Route path={'/event/:id'}>
+            <EventDetailsPage />
+          </Route>
+          <Route path={'/eventedit/:id'} render={renderEditEvent} />
+          <Route path={'/signup'}>
+            <SignupPage />
+          </Route>
+          <Route path={'/login'}>
+            <LoginPage />
+          </Route>
+        </Switch>
+      </div>
     </>
   )
 }

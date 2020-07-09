@@ -18,7 +18,7 @@ const EventsPage = () => {
   }
 
   return (
-    <div>
+    <div className="col-fill col">
       <h1>Events</h1>
       {getEventsLoading === 'pending' ? (
         <LoadingIndicator loading />

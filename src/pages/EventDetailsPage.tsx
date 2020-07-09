@@ -9,7 +9,11 @@ const EventDetailsPage = () => {
 
   const event = events.find((event) => event.id === id)
 
-  return event ? <EventDetails event={event} /> : null
+  return event ? (
+    <div className="col-fill col">
+      <EventDetails event={event} />
+    </div>
+  ) : null
 }
 
 export default EventDetailsPage

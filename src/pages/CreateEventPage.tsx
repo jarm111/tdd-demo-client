@@ -24,7 +24,7 @@ const CreateEventPage = () => {
   }
 
   return (
-    <div>
+    <div className="col">
       <h2>Create new event</h2>
       <EventForm onSubmit={handleSubmit} />
       <LoadingIndicator loading={addEventLoading === 'pending'} />

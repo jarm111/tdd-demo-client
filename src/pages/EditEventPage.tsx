@@ -40,10 +40,14 @@ const EditEventPage = () => {
     event && dispatch(removeEvent(event))
   }
 
-  const RemoveButton = <button onClick={handleDelete}>Remove event</button>
+  const RemoveButton = (
+    <button className="margin-top-small" onClick={handleDelete}>
+      Remove event
+    </button>
+  )
 
   return (
-    <div>
+    <div className="col">
       <h2>Edit event</h2>
       {event && <EventForm onSubmit={handleSubmit} event={event} />}
       {event && RemoveButton}

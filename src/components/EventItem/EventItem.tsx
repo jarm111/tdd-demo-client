@@ -24,7 +24,7 @@ const EventItem = ({ event, onClick, onEdit, user }: Props) => {
   )
 
   return (
-    <div className="card" onClick={() => onClick(id)}>
+    <div className="card margin-bottom-small" onClick={() => onClick(id)}>
       <div className="card-body">
         <h4 className="card-title">{title}</h4>
         <h5 className="card-subtitle">{date}</h5>

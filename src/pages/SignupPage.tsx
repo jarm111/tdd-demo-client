@@ -23,8 +23,8 @@ const SignupPage = () => {
   }
 
   return (
-    <div>
-      <h2>Create new account</h2>
+    <div className="col">
+      <h2>Sign up</h2>
       <SignupForm onSubmit={handleSubmit} />
       <LoadingIndicator loading={loading === 'pending'} />
     </div>
