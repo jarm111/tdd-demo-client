@@ -5,7 +5,7 @@ import { ALL_CATEGORIES } from '../../types/Category'
 import NewEvent from '../../types/NewEvent'
 
 const schema = yup.object().shape({
-  title: yup.string().required().min(3).max(100),
+  title: yup.string().required().min(3).max(30),
   date: yup
     .string()
     .required()
@@ -13,7 +13,7 @@ const schema = yup.object().shape({
       /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/,
       'date must be in format: yyyy-mm-dd'
     ),
-  description: yup.string().required().min(10).max(500),
+  description: yup.string().required().min(10).max(160),
   category: yup.string().required(),
 })
 
