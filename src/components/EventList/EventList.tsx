@@ -19,23 +19,29 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
   const [categoryFilter, setCategoryFilter] = useState<Category | ''>('')
   const [ownEventsFilter, setOwnEventsFilter] = useState(false)
 
-  const ownFilteredEvents =
-    user && ownEventsFilter
-      ? events.filter((event) => event.user === user.id)
-      : events
-  const titleFilteredEvents = titleFilter
-    ? ownFilteredEvents.filter((event) =>
+  const filterEvents = (events: Readonly<Event[]>): Event[] => {
+    let filteredEvents = events.slice()
+
+    if (user && ownEventsFilter) {
+      filteredEvents = filteredEvents.filter((event) => event.user === user.id)
+    }
+
+    if (titleFilter) {
+      filteredEvents = filteredEvents.filter((event) =>
         event.title.toLowerCase().includes(titleFilter.toLowerCase())
       )
-    : ownFilteredEvents
-  const categoryFilteredEvents = categoryFilter
-    ? titleFilteredEvents.filter((event) => event.category === categoryFilter)
-    : titleFilteredEvents
-  const sortedEvents = categoryFilteredEvents
-    .slice()
-    .sort((a, b) => a.date.localeCompare(b.date))
-  const orderedEvents =
-    order === 'desc' ? sortedEvents.slice().reverse() : sortedEvents
+    }
+
+    if (categoryFilter) {
+      filteredEvents = filteredEvents.filter(
+        (event) => event.category === categoryFilter
+      )
+    }
+
+    filteredEvents.sort((a, b) => a.date.localeCompare(b.date))
+    order === 'desc' && filteredEvents.reverse()
+    return filteredEvents
+  }
 
   return (
     <div>
@@ -101,7 +107,7 @@ const EventList = ({ events, onClick, onEdit, user }: Props) => {
         </div>
       </div>
       <div>
-        {orderedEvents.map((event) => (
+        {filterEvents(events).map((event) => (
           <EventItem
             onClick={onClick}
             key={event.id}
