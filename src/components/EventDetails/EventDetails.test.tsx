@@ -10,7 +10,7 @@ test('displays details of event', () => {
   const { getByText } = render(<EventDetails event={event} />)
 
   getByText(title)
-  getByText(date)
-  getByText(category)
-  getByText(description)
+  getByText(date, { exact: false })
+  getByText(category, { exact: false })
+  getByText(description, { exact: false })
 })
