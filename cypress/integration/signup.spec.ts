@@ -5,6 +5,11 @@ it('successfully creates new user account and logs out', () => {
 
   cy.server()
   cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [],
+  })
+  cy.route({
     method: 'POST',
     url: '/api/signup',
     response: user,
@@ -34,6 +39,11 @@ it('displays error message on failed sign up', () => {
   const {email, password} = credentials
 
   cy.server()
+  cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [],
+  })
   cy.route({
     method: 'POST',
     url: '/api/signup',

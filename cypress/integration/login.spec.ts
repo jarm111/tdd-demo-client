@@ -5,6 +5,11 @@ it('successfully logs in and logs out', () => {
 
   cy.server()
   cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [],
+  })
+  cy.route({
     method: 'POST',
     url: '/api/login',
     response: user,
@@ -31,6 +36,11 @@ it('displays error message on failed login', () => {
   const {email, password} = credentials
 
   cy.server()
+  cy.route({
+    method: 'GET',
+    url: '/api/events',
+    response: [],
+  })
   cy.route({
     method: 'POST',
     url: '/api/login',
